@@ -8,7 +8,7 @@ const inputClasses = "mt-3 p-3 rounded-lg bg-gray w-full";
 
 const Registar = () => {
     return (
-        <div className='text-semiBlack' >
+        <div className='text-semiBlack flex flex-col min-h-screen w-full' >
 
             {/* BACK ARROW  */}
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-[24px] h-[24px] -ml-1">
@@ -21,30 +21,31 @@ const Registar = () => {
                 <Heading1 additionalClasses="mt-[9px] " >Let’s get to know you better!</Heading1>
             </div>
 
-            <form >
-                {/* NAME  */}
-                <Heading2 additionalClasses={'mt-4'} >Your name</Heading2>
-                <input type={"text"} placeholder="Type your name here" className={inputClasses} />
+            <form className='grid grid-cols-1 w-full h-full flex-grow'>
+                <div>
+                    {/* NAME  */}
+                    <Heading2 additionalClasses={'mt-4'} >Your name</Heading2>
+                    <input type={"text"} placeholder="Type your name here" className={inputClasses} />
 
-                {/* USERNAME  */}
-                <Heading2 additionalClasses={'mt-4'} > username</Heading2>
-                <input type={"text"} placeholder="Type your username here" className={inputClasses} />
+                    {/* USERNAME  */}
+                    <Heading2 additionalClasses={'mt-4'} > username</Heading2>
+                    <input type={"text"} placeholder="Type your username here" className={inputClasses} />
 
-                {/* EMAIL  */}
-                <Heading2 additionalClasses={'mt-4'} >Email</Heading2>
-                <input type={"email"} placeholder="Type your username here" className={inputClasses} />
+                    {/* EMAIL  */}
+                    <Heading2 additionalClasses={'mt-4'} >Email</Heading2>
+                    <input type={"email"} placeholder="Type your username here" className={inputClasses} />
 
-                {/* PASSWORD */}
-                <Heading2 additionalClasses={'mt-4'} > Password</Heading2>
-                <input type={"password"} placeholder="Type your password here" className={inputClasses} />
+                    {/* PASSWORD */}
+                    <Heading2 additionalClasses={'mt-4'} > Password</Heading2>
+                    <input type={"password"} placeholder="Type your password here" className={inputClasses} />
+                </div>
 
-                {/* white space  */}
-                <div className="mt-5 mb-[73px] "></div>
+                <div className='place-self-end w-full mt-[73px]'>
+                    <Info type="success"> success </Info>
 
-                <Info type="success"> success </Info>
-
-                {/* SUBMIT BUTTON  */}
-                <Button additionalClasses="mt-4" type="primary" >Register</Button>
+                    {/* SUBMIT BUTTON  */}
+                    <Button additionalClasses="mt-4" type="primary" >Login</Button>
+                </div>
             </form>
         </div>
     );
