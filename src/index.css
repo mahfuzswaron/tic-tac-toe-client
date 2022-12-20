@@ -15,6 +15,10 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+input::placeholder{
+  font-size: 14px;
+}
+
 .font-bilbo{
   font-family: 'Bilbo';
 }

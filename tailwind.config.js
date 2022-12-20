@@ -9,7 +9,9 @@ module.exports = {
       secondary: "#2F80ED ",
       error: "#EB5757",
       success: "#6FCF97 ",
-      white: "#fff"
+      white: "#fff",
+      semiBlack: "#333333",
+      gray: "#F4F4F4"
     },
     extend: {},
   },

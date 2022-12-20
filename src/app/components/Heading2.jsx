@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Heading2 = () => {
+const Heading2 = ({ children, additionalClasses }) => {
     return (
-        <div>
-
-        </div>
+        <h6 className={'text-sm font-bold font-Epilogue leading-[14.35px]' + " " + additionalClasses} >
+            {children}
+        </h6>
     );
 };
 

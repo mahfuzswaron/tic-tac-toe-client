@@ -1,10 +1,10 @@
 import React from 'react';
 
-const Heading1 = () => {
+const Heading1 = ({ children, additionalClasses }) => {
     return (
-        <div>
-
-        </div>
+        <h1 className={"text-[28px] leading-8 font-Epilogue font-bold " + additionalClasses} >
+            {children}
+        </h1 >
     );
 };
 
