@@ -3,6 +3,7 @@ import Login from "./app/pages/Login";
 import Registar from "./app/pages/Registar";
 import Home from "./app/pages/Home";
 import NewGame from "./app/pages/NewGame";
+import PlayGround from "./app/pages/PlayGround";
 
 function App() {
   return (
@@ -11,7 +12,8 @@ function App() {
       {/* <Login /> */}
       {/* <Registar /> */}
       {/* <Home /> */}
-      <NewGame />
+      {/* <NewGame /> */}
+      <PlayGround />
 
     </div>
   );
