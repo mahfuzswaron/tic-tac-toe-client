@@ -2,6 +2,7 @@ import Entry from "./app/pages/Entry";
 import Login from "./app/pages/Login";
 import Registar from "./app/pages/Registar";
 import Home from "./app/pages/Home";
+import NewGame from "./app/pages/NewGame";
 
 function App() {
   return (
@@ -9,7 +10,8 @@ function App() {
       {/* <Entry /> */}
       {/* <Login /> */}
       {/* <Registar /> */}
-      <Home />
+      {/* <Home /> */}
+      <NewGame />
 
     </div>
   );
