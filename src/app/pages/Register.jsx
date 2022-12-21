@@ -5,6 +5,7 @@ import Button from "../components/Button";
 import Info from '../components/Info';
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
+import { Link } from 'react-router-dom';
 
 
 const inputClasses = "mt-3 p-3 rounded-lg bg-gray w-full";
@@ -41,7 +42,7 @@ const Register = () => {
             body: JSON.stringify(formValue)
         }).then(res => res.json()).then(data => {
             if (data.success) {
-                // createUserWithEmailAndPassword(formValue.email, formValue.password);
+                createUserWithEmailAndPassword(formValue.email, formValue.password);
                 setInfo({ error: "", success: "congrats" })
                 setFormValue({ name: "", email: "", "username": "", "password": "" })
             }
@@ -69,9 +70,11 @@ const Register = () => {
         <div className='text-semiBlack flex flex-col min-h-screen w-full' >
 
             {/* BACK ARROW  */}
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-[24px] h-[24px] -ml-1">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-            </svg>
+            <Link to={"/entry"}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-[24px] h-[24px] -ml-1">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+            </Link>
 
             {/* HEADING  */}
             <div className='my-9' >
