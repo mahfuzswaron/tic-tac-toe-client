@@ -23,7 +23,7 @@ const PlayGround = () => {
 
             <Board />
 
-            <Button type="primary" >Submit</Button>
+            <Button btnType="primary" >Submit</Button>
 
         </div>
     );

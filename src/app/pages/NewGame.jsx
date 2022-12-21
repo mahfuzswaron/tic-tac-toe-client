@@ -24,7 +24,7 @@ const NewGame = () => {
             </div>
 
             <div className='h-full flex items-end'>
-                <Button type="primary">Start game</Button>
+                <Button btnType="primary">Start game</Button>
             </div>
 
         </div>

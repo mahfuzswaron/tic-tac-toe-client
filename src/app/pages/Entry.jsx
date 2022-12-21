@@ -8,8 +8,8 @@ const Entry = () => {
                 <h1 className='text-8xl' >tic tac toe</h1>
             </div>
             <div className='space-y-5 font-Epilogue' >
-                <Button type="primary" > Login </Button>
-                <Button type="secondary" > Register </Button>
+                <Button btnType="primary" > Login </Button>
+                <Button btnType="secondary" > Register </Button>
             </div>
         </div>
     );

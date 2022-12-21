@@ -8,7 +8,7 @@ const GameCard = ({ game }) => {
             <h1 className='text-2xl font-bold' >Game with {players[1]} </h1>
             <p className='whitespace-pre-line ' >{status}</p>
             <p className='text-sm'>{date} </p >
-            <Button type={"primary"}>Play!</Button>
+            <Button btnType={"primary"}>Play!</Button>
         </div>
     );
 };

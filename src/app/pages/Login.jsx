@@ -38,7 +38,7 @@ const Login = () => {
                     <Info type="success"> success </Info>
 
                     {/* SUBMIT BUTTON  */}
-                    <Button additionalClasses="mt-4" type="primary" >Login</Button>
+                    <Button additionalClasses="mt-4" btnType="primary" >Login</Button>
                 </div>
             </form>
         </div>
