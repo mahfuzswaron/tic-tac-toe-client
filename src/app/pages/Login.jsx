@@ -1,13 +1,65 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Heading2 from "../components/Heading2";
 import Heading1 from "../components/Heading1";
 import Button from "../components/Button";
 import Info from '../components/Info';
 import { Link } from 'react-router-dom';
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import auth from '../../firebase.init';
 
 const inputClasses = "mt-3 p-3 rounded-lg bg-gray w-full";
 
 const Login = () => {
+    const [formValue, setFormValue] = useState({
+        username: "",
+        password: "",
+    });
+    const [info, setInfo] = useState({ success: "", error: "" });
+    const [
+        signInWithEmailAndPassword,
+        user,
+        loading,
+        error,
+    ] = useSignInWithEmailAndPassword(auth);
+
+    const updateFormValue = (e, inputName) => {
+        const value = e.target.value;
+        const newForm = { ...formValue };
+        newForm[inputName] = value;
+        setFormValue({ ...newForm });
+    };
+
+    const loginUser = (e) => {
+        e.preventDefault();
+
+        fetch(`http://localhost:5000/userinfo/${formValue["username"]}`).then(res => res.json()).then(data => {
+            if (data.success) {
+                signInWithEmailAndPassword(data.user.email, formValue.password);
+                setInfo({ error: "", success: "congrats" })
+                setFormValue({ "username": "", "password": "" })
+            }
+            else {
+                setInfo({ success: "", error: data.error })
+            }
+        })
+
+
+        if (error) {
+            console.log("error ache")
+            setInfo({ success: "", error: error.message })
+        }
+        else if (user) {
+            console.log("user ache")
+            setInfo({ error: "", success: "logged in successfully" })
+            console.log(info)
+        }
+
+    };
+
+    if (loading) {
+        return <p>loading...</p>
+    }
+
     return (
         <div className='text-semiBlack flex flex-col min-h-screen' >
 
@@ -24,24 +76,41 @@ const Login = () => {
                 <Heading1 additionalClasses="mt-[9px] " >Please enter your details</Heading1>
             </div>
 
-            <form className='grid grid-cols-1 w-full h-full flex-grow'>
+            <form onSubmit={loginUser} className='grid grid-cols-1 w-full h-full flex-grow'>
 
                 <div>
                     {/* USERNAME  */}
                     <Heading2 additionalClasses={'mt-4'} > username</Heading2>
-                    <input type={"text"} placeholder="Type your username here" className={inputClasses} />
+                    <input
+                        required
+                        type={"text"}
+                        placeholder="Type your username here"
+                        className={inputClasses}
+                        value={formValue["username"]}
+                        onChange={(e) => updateFormValue(e, "username")}
+                    />
 
                     {/* PASSWORD */}
                     <Heading2 additionalClasses={'mt-4'} > Password</Heading2>
-                    <input type={"password"} placeholder="Type your password here" className={inputClasses} />
+                    <input
+                        required
+                        type={"password"}
+                        placeholder="Type your password here"
+                        className={inputClasses}
+                        value={formValue["password"]}
+                        onChange={(e) => updateFormValue(e, "password")}
+                    />
 
                 </div>
 
                 <div className='place-self-end w-full'>
-                    <Info type="success"> success </Info>
+                    {/* <Info type="success"> success </Info> */}
+                    {
+                        info.success ? <Info type="success">{info.success}</Info> : info.error && <Info type="error" >{info.error}</Info>
+                    }
 
                     {/* SUBMIT BUTTON  */}
-                    <Button additionalClasses="mt-4" btnType="primary" >Login</Button>
+                    <Button additionalClasses="mt-4" type="submit" btnType={"primary"} >Login</Button>
                 </div>
             </form>
         </div>
