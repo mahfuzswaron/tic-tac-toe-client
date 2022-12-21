@@ -32,7 +32,24 @@ const Register = () => {
     }
     const registerUser = async (e) => {
         e.preventDefault();
-        await createUserWithEmailAndPassword(formValue.email, formValue.password);
+
+        fetch("http://localhost:5000/register", {
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify(formValue)
+        }).then(res => res.json()).then(data => {
+            if (data.success) {
+                // createUserWithEmailAndPassword(formValue.email, formValue.password);
+                setInfo({ error: "", success: "congrats" })
+                setFormValue({ name: "", email: "", "username": "", "password": "" })
+            }
+            else {
+                setInfo({ success: "", error: data.error })
+            }
+        })
+
         if (error) {
             console.log("error ache")
             setInfo({ success: "", error: error.message })
@@ -42,7 +59,6 @@ const Register = () => {
             setInfo({ error: "", success: "congrats" })
             console.log(info)
         }
-        setFormValue({ name: "", email: "", "username": "", "password": "" })
     }
 
     if (loading) {
