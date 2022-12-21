@@ -27,7 +27,7 @@ const Board = () => {
                         } `}
                         onClick={() => makeMove(k)}
                     >
-                        <img src={piecePlaceholders[boardMap[k]] || ""} alt="" />
+                        <img className={`${k !== "" && "h-16 w-16"} `} src={piecePlaceholders[boardMap[k]] || ""} alt=" " />
                     </div>)
                 }
             </div>
