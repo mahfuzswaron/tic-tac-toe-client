@@ -5,7 +5,7 @@ import Button from "../components/Button";
 import Info from '../components/Info';
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 const inputClasses = "mt-3 p-3 rounded-lg bg-gray w-full";
@@ -24,7 +24,7 @@ const Register = () => {
         loading,
         error,
     ] = useCreateUserWithEmailAndPassword(auth);
-
+    const navigate = useNavigate();
     const updateFormValue = (e, inputName) => {
         const value = e.target.value;
         const newForm = { ...formValue };
@@ -45,6 +45,7 @@ const Register = () => {
                 createUserWithEmailAndPassword(formValue.email, formValue.password);
                 setInfo({ error: "", success: "congrats" })
                 setFormValue({ name: "", email: "", "username": "", "password": "" })
+                navigate("/home");
             }
             else {
                 setInfo({ success: "", error: data.error })

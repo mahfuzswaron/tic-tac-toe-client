@@ -3,7 +3,7 @@ import Heading2 from "../components/Heading2";
 import Heading1 from "../components/Heading1";
 import Button from "../components/Button";
 import Info from '../components/Info';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import auth from '../../firebase.init';
 
@@ -21,6 +21,8 @@ const Login = () => {
         loading,
         error,
     ] = useSignInWithEmailAndPassword(auth);
+    const navigate = useNavigate();
+
 
     const updateFormValue = (e, inputName) => {
         const value = e.target.value;
@@ -37,6 +39,7 @@ const Login = () => {
                 signInWithEmailAndPassword(data.user.email, formValue.password);
                 setInfo({ error: "", success: "congrats" })
                 setFormValue({ "username": "", "password": "" })
+                navigate("/home")
             }
             else {
                 setInfo({ success: "", error: data.error })
@@ -45,13 +48,7 @@ const Login = () => {
 
 
         if (error) {
-            console.log("error ache")
             setInfo({ success: "", error: error.message })
-        }
-        else if (user) {
-            console.log("user ache")
-            setInfo({ error: "", success: "logged in successfully" })
-            console.log(info)
         }
 
     };
