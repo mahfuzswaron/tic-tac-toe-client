@@ -3,7 +3,7 @@ import x from "../assets/x.svg";
 import o from "../assets/o.svg";
 
 const Board = () => {
-    const piece = "x";
+    const piece = "o";
     const [boardMap, setBoardMap] = useState({
         a1: "", a2: "", a3: "",
         b1: "", b2: "", b3: "",
@@ -17,7 +17,7 @@ const Board = () => {
         setBoardMap({ ...newBoardMap })
     }
     return (
-        <div>
+        <div className='my-5' >
             <div className='w-full text-[19px] text-center py-3  bg-[#FFE79E]'>
                 <span>Your Move</span>
             </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import Heading1 from '../components/Heading1';
 import x from "../assets/x.svg";
 import Board from '../components/Board';
+import Button from "../components/Button";
 
 const PlayGround = () => {
     return (
@@ -21,6 +22,8 @@ const PlayGround = () => {
             {/* Game Board  */}
 
             <Board />
+
+            <Button type="primary" >Submit</Button>
 
         </div>
     );
