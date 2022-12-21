@@ -6,7 +6,7 @@ import Info from '../components/Info';
 
 const inputClasses = "mt-3 p-3 rounded-lg bg-gray w-full";
 
-const Registar = () => {
+const Register = () => {
     return (
         <div className='text-semiBlack flex flex-col min-h-screen w-full' >
 
@@ -44,11 +44,11 @@ const Registar = () => {
                     <Info type="success"> success </Info>
 
                     {/* SUBMIT BUTTON  */}
-                    <Button additionalClasses="mt-4" type="primary" >Login</Button>
+                    <Button additionalClasses="mt-4" type="primary" >Register</Button>
                 </div>
             </form>
         </div>
     );
 };
 
-export default Registar;
+export default Register;
