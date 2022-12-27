@@ -31,7 +31,7 @@ const Home = ({ user }) => {
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-[14px] h-[14px]">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                             </svg>
-                            <span className='text-[14px]' >New Game</span>
+                            <Link to="/new-game" ><span className='text-[14px]' >New Game</span></Link>
                         </div>
                     </>
                     :
