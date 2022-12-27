@@ -1,11 +1,25 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Heading1 from '../components/Heading1';
 import x from "../assets/x.svg";
 import Board from '../components/Board';
 import Button from "../components/Button";
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const PlayGround = () => {
+    const [game, setGame] = useState({});
+    const [loading, setLoading] = useState(false);
+    const id = useParams().id;
+    useEffect(() => {
+        setLoading(true);
+        fetch(`http://localhost:5000/get-game/${id}`).then(res => res.json()).then(game => {
+            setGame(game);
+            setLoading(false);
+        });
+    }, []);
+    if (loading) {
+        return <p>loading...</p>
+    }
+    console.log(game)
     return (
         <div className=''>
             {/* BACK ARROW  */}
@@ -17,7 +31,7 @@ const PlayGround = () => {
 
             {/* HEADER */}
             <div className='mt-9 mb-2' >
-                <Heading1>Game with Tanmay</Heading1>
+                <Heading1>Game with </Heading1>
                 <p className='text-[14px] my-2'>Your Piece</p>
                 <img src={x} alt="x icon" />
             </div>

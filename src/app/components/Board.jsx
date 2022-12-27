@@ -11,7 +11,7 @@ const Board = () => {
     });
     const piecePlaceholders = { x: x, o: o };
     const makeMove = k => {
-        console.log(k)
+        // console.log(k)
         const newBoardMap = { ...boardMap };
         newBoardMap[k] = piece;
         setBoardMap({ ...newBoardMap })
@@ -23,7 +23,7 @@ const Board = () => {
             </div>
             <div className='grid grid-cols-3 h-[334px]'>
                 {
-                    Object.keys(boardMap).map(k => <div className={`p-5 bg-pri border-[#FFE79E] flex justify-center itmes-center ${k === "b2" ? "border-4" : k[1] === "2" ? "border-r-4 border-l-4" : k[0] === "b" && "border-t-4 border-b-4"
+                    Object.keys(boardMap).map(k => <div key={k} className={`p-5 bg-pri border-[#FFE79E] flex justify-center itmes-center ${k === "b2" ? "border-4" : k[1] === "2" ? "border-r-4 border-l-4" : k[0] === "b" && "border-t-4 border-b-4"
                         } `}
                         onClick={() => makeMove(k)}
                     >
