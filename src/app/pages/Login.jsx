@@ -34,7 +34,7 @@ const Login = () => {
     const loginUser = (e) => {
         e.preventDefault();
 
-        fetch(`http://localhost:5000/userinfo/${formValue["username"]}`).then(res => res.json()).then(data => {
+        fetch(`http://localhost:5000/userinfo?username=${formValue["username"]}`).then(res => res.json()).then(data => {
             if (data.success) {
                 signInWithEmailAndPassword(data.user.email, formValue.password);
                 setInfo({ error: "", success: "congrats" })

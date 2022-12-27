@@ -3,12 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import Heading1 from '../components/Heading1';
 import Heading2 from '../components/Heading2';
-import auth from '../../firebase.init';
-import { useAuthState } from "react-firebase-hooks/auth";
 
-const NewGame = () => {
+const NewGame = ({ user }) => {
     const [email, setEmail] = useState("");
-    const [user, loading, error] = useAuthState(auth);
     const navigate = useNavigate();
     const startGame = () => {
         fetch("http://localhost:5000/start-game", {
@@ -19,15 +16,12 @@ const NewGame = () => {
             body: JSON.stringify({ user: user.email, partner: email })
         }).then(response => response.json()).then(result => {
             if (result.success) {
-                navigate(`/play-ground/${result.gameId}`)
+                navigate(`/play-ground/${result.insertedId}`)
             }
             else {
                 alert("user not found. please enter a valid email");
             }
         })
-    }
-    if (loading) {
-        return <p>loading...</p>
     }
     return (
         <div className='flex flex-col' >
@@ -48,7 +42,7 @@ const NewGame = () => {
                 <Heading2 additionalClasses={'mt-4'} >Email</Heading2>
                 <input
                     type={"email"}
-                    placeholder="Type your username here"
+                    placeholder="Type their email here"
                     className={"mt-3 p-3 rounded-lg bg-gray w-full"}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
