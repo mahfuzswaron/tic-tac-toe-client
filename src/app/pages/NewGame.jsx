@@ -3,8 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 import Heading1 from '../components/Heading1';
 import Heading2 from '../components/Heading2';
+import UseUserInfo from '../hooks/UseUserInfo';
 
-const NewGame = ({ user }) => {
+const NewGame = () => {
+    const [user, loading, fireabaseLoading] = UseUserInfo();
     const [email, setEmail] = useState("");
     const navigate = useNavigate();
     const startGame = () => {
@@ -23,6 +25,10 @@ const NewGame = ({ user }) => {
             }
         })
     }
+    if (loading || fireabaseLoading || !user?._id) {
+        return <p>user loading...</p>
+    }
+
     return (
         <div className='flex flex-col' >
             {/* BACK ARROW  */}

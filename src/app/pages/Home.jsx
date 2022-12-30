@@ -3,19 +3,24 @@ import { Link } from 'react-router-dom';
 import Button from '../components/Button';
 import GameCard from '../components/GameCard';
 import Heading1 from "../components/Heading1";
+import UseUserInfo from '../hooks/UseUserInfo';
 
 const NoGameDiv = <div className=' flex-grow flex flex-col justify-center items-center my-auto max-h-min w-full'>
     <h1 className='text-6xl text-center font-bilbo mb-6' >No Games Found</h1>
     <Link className='w-full' to="/new-game"><Button btnType={"primary"} >Start a new game</Button></Link>
 </div>
 
-const Home = ({ user }) => {
+const Home = () => {
     const [games, setGames] = useState([]);
+    const [user, loading, fireabaseLoading] = UseUserInfo();
     useEffect(() => {
         const url = `http://localhost:5000/all-games/${user?.username}`;
         fetch(url).then(res => res.json()).then(data => setGames(data))
     }, [user]);
-
+    // console.log(loading, fireabaseLoading, user?._id)
+    if (loading || fireabaseLoading || !user?._id) {
+        return <p>user loading in home...</p>
+    }
     return (
         <div className='w-full min-h-screen flex flex-col relative' >
             <Heading1>Your Games</Heading1>
