@@ -29,13 +29,19 @@ function App() {
         <Route path="/" element={<AuthWall>
           <Home />
         </AuthWall>} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/home" element={<AuthWall>
+          <Home />
+        </AuthWall>} />
         <Route path="/entry" element={<Entry />} />
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/new-game" element={<NewGame />} />
-        <Route path="/play-ground/:id" element={<PlayGround />} />
+        <Route path="/new-game" element={<AuthWall>
+          <NewGame />
+        </AuthWall>} />
+        <Route path="/play-ground/:id" element={<AuthWall>
+          <PlayGround />
+        </AuthWall>} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>

@@ -17,7 +17,7 @@ const Home = () => {
         const url = `http://localhost:5000/all-games/${user?.username}`;
         fetch(url).then(res => res.json()).then(data => setGames(data))
     }, [user]);
-    // console.log(loading, fireabaseLoading, user?._id)
+    console.log(loading, fireabaseLoading, user?._id)
     if (loading || fireabaseLoading || !user?._id) {
         return <p>user loading in home...</p>
     }
