@@ -18,6 +18,7 @@ function App() {
   }, [user, loading]);
 
   if (loading || !mongoUser) {
+    // console.log()
     return <p>loading...</p>
   }
 

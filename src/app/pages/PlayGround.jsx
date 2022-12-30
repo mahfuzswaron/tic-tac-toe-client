@@ -7,19 +7,29 @@ import { Link, useParams } from 'react-router-dom';
 
 const PlayGround = () => {
     const [game, setGame] = useState({});
+    const [canMove, setCanMove] = useState(false);
+    // const [updatedGame, setUpdatedGame] = useState({});
     const [loading, setLoading] = useState(false);
     const id = useParams().id;
     useEffect(() => {
         setLoading(true);
         fetch(`http://localhost:5000/get-game/${id}`).then(res => res.json()).then(game => {
-            setGame(game);
-            setLoading(false);
+            if (game) {
+                game.move === "arif" && setCanMove(true)
+                setGame(game)
+                return setLoading(false)
+            }
         });
-    }, []);
-    if (loading) {
-        return <p>loading...</p>
+
+    }, [id]);
+
+    if (loading || !game._id) {
+        return <p> Loading... </p>
     }
-    console.log(game)
+    const handleSubmit = () => {
+        console.log(game.board);
+
+    }
     return (
         <div className=''>
             {/* BACK ARROW  */}
@@ -38,9 +48,14 @@ const PlayGround = () => {
 
             {/* Game Board  */}
 
-            <Board />
+            <Board
+                game={game}
+                setGame={setGame}
+                canMove={canMove}
+                setCanMove={setCanMove}
+            />
 
-            <Button btnType="primary" >Submit</Button>
+            <Button onClick={handleSubmit} btnType="primary" >Submit</Button>
 
         </div>
     );
