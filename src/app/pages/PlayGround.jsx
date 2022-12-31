@@ -4,8 +4,11 @@ import x from "../assets/x.svg";
 import Board from '../components/Board';
 import Button from "../components/Button";
 import { Link, useParams } from 'react-router-dom';
+import UseUserInfo from '../hooks/UseUserInfo';
+import { partner } from '../hooks/necessaryFns';
 
 const PlayGround = () => {
+    const [user, userloading, firebaseLoading] = UseUserInfo();
     const [game, setGame] = useState({});
     const [canMove, setCanMove] = useState(false);
     // const [updatedGame, setUpdatedGame] = useState({});
@@ -15,15 +18,15 @@ const PlayGround = () => {
         setLoading(true);
         fetch(`http://localhost:5000/get-game/${id}`).then(res => res.json()).then(game => {
             if (game) {
-                game.move === "arif" && setCanMove(true)
+                game.move === user?.username && setCanMove(true)
                 setGame(game)
                 return setLoading(false)
             }
         });
 
-    }, [id]);
+    }, [id, user]);
 
-    if (loading || !game._id) {
+    if (loading || userloading || firebaseLoading || !user?._id || !game._id) {
         return <p> Loading... </p>
     }
     const handleSubmit = () => {
@@ -41,7 +44,7 @@ const PlayGround = () => {
 
             {/* HEADER */}
             <div className='mt-9 mb-2' >
-                <Heading1>Game with </Heading1>
+                <Heading1>Game with {partner(Object.values(game.players), user.username)} </Heading1>
                 <p className='text-[14px] my-2'>Your Piece</p>
                 <img src={x} alt="x icon" />
             </div>
