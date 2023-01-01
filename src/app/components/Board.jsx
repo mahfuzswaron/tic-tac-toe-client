@@ -19,7 +19,12 @@ const Board = ({ game, setGame, canMove, setCanMove, piece, username }) => {
     return (
         <div className='my-5' >
             <div className='w-full text-[19px] text-center py-3  bg-[#FFE79E]'>
-                <span>{pronoun(game.move, username)} Move</span>
+                <span>
+                    {/* {pronoun(game.move, username)} Move */}
+                    {
+                        game.status.finished ? `${game.status.message[username]}` : `${pronoun(game.move, username)} Move`
+                    }
+                </span>
             </div>
             <div className='grid grid-cols-3 h-[334px]'>
                 {

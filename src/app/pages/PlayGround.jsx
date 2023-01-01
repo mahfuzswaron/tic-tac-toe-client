@@ -76,7 +76,10 @@ const PlayGround = () => {
                 piece={piece}
             />
 
-            <Button onClick={handleSubmit} btnType={`${game.status.finished ? "primary" : game.move === user?.username ? "primary" : "disabled"}`} > {game.status.finished ? "start a new game!" : game.move === user?.username ? "submit" : `waiting for ${partner(Object.values(game.players), user.username)}'s move`} </Button>
+            <Button onClick={handleSubmit}
+                btnType={`${game.status.finished ? "primary" : game.move === user?.username ? "primary" : "disabled"}`} >
+                {game.status.finished ? "start a new game!" : game.move === user?.username ? "submit!" : `waiting for ${partner(Object.values(game.players), user.username)}'s move`}
+            </Button>
 
         </div>
     );

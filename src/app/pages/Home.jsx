@@ -30,7 +30,7 @@ const Home = () => {
                     <>
                         <div className="grid grid-cols-1 gap-4 mt-4">
                             {
-                                games.map(g => <GameCard key={g._id} game={g} user={user.username} />)
+                                games.map(g => <GameCard key={g._id} game={g} username={user.username} />)
                             }
                         </div>
                         <div className='w-[124px] p-2 flex items-center space-x-2 bg-[#270F36] text-white rounded-lg fixed bottom-6 right-6 z-1'>

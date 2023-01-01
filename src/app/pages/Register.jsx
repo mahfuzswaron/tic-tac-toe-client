@@ -43,9 +43,6 @@ const Register = () => {
         }).then(res => res.json()).then(data => {
             if (data.success) {
                 createUserWithEmailAndPassword(formValue.email, formValue.password);
-                setInfo({ error: "", success: "congrats" })
-                setFormValue({ name: "", email: "", "username": "", "password": "" })
-                navigate("/home");
             }
             else {
                 setInfo({ success: "", error: data.error })
@@ -56,16 +53,24 @@ const Register = () => {
             console.log("error ache")
             setInfo({ success: "", error: error.message })
         }
-        else if (user) {
-            console.log("user ache")
+
+        console.log("<<<", user)
+        if (user) {
+            console.log(user)
             setInfo({ error: "", success: "congrats" })
-            console.log(info)
+            setFormValue({ name: "", email: "", "username": "", "password": "" })
+            navigate("/home");
         }
+
     }
 
     if (loading) {
         return <p>Loaidng...</p>
     }
+    if (user) {
+        navigate("/")
+    }
+
 
     return (
         <div className='text-semiBlack flex flex-col min-h-screen w-full' >

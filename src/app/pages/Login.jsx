@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Heading2 from "../components/Heading2";
 import Heading1 from "../components/Heading1";
 import Button from "../components/Button";
@@ -22,7 +22,14 @@ const Login = () => {
         error,
     ] = useSignInWithEmailAndPassword(auth);
     const navigate = useNavigate();
-
+    useEffect(() => {
+        if (error) {
+            setInfo({ success: "", error: error.message })
+        }
+        else if (user) {
+            setInfo({ success: "Congrats!", error: "" })
+        }
+    }, [error, user])
 
     const updateFormValue = (e, inputName) => {
         const value = e.target.value;
@@ -37,24 +44,26 @@ const Login = () => {
         fetch(`http://localhost:5000/userinfo?username=${formValue["username"]}`).then(res => res.json()).then(data => {
             if (data.success) {
                 signInWithEmailAndPassword(data.user.email, formValue.password);
-                setInfo({ error: "", success: "congrats" })
-                setFormValue({ "username": "", "password": "" })
-                navigate("/home")
+                if (user) {
+                    setInfo({ error: "", success: "congrats" })
+                    setFormValue({ "username": "", "password": "" })
+                }
             }
             else {
                 setInfo({ success: "", error: data.error })
             }
         })
 
-
-        if (error) {
-            setInfo({ success: "", error: error.message })
-        }
-
     };
 
     if (loading) {
         return <p>loading...</p>
+    }
+
+
+    // console.log("<<<", user)
+    if (user) {
+        navigate("/")
     }
 
     return (
