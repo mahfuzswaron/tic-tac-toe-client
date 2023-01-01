@@ -6,22 +6,14 @@ import NewGame from "./app/pages/NewGame";
 import PlayGround from "./app/pages/PlayGround";
 import { Routes, Route } from "react-router-dom";
 import NotFound from "./app/pages/NotFound";
-import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "./firebase.init";
-import { useEffect, useState } from "react";
 import AuthWall from "./app/pages/AuthWall";
 import { useSignOut } from 'react-firebase-hooks/auth';
 
 function App() {
-  const [signOut, signOutLoading, error] = useSignOut(auth);
+  const [signOut, signOutLoading] = useSignOut(auth);
 
-  // 
-  // console.log(user)
-  if (signOutLoading) {
-    // console.log(loading)
-    return <p> App loading...</p>
-  }
-
+  if (signOutLoading) return <p> App loading...</p>
 
   return (
     <div className="max-w-sm min-h-screen grid grid-cols-1 mx-auto p-4 border rounded-lg bg-white" >
@@ -51,7 +43,7 @@ function App() {
         if (success) {
           alert('You are sign out');
         }
-      }} >log-out</button>
+      }} > log-out</button>
     </div>
   );
 }

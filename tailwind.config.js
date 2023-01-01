@@ -11,7 +11,8 @@ module.exports = {
       success: "#6FCF97 ",
       white: "#fff",
       semiBlack: "#333333",
-      gray: "#F4F4F4"
+      gray: "#F4F4F4",
+      disabled: '#E0E0E0',
     },
     extend: {},
   },

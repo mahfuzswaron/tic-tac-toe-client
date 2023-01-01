@@ -1,36 +1,52 @@
 import React, { useEffect, useState } from 'react';
 import Heading1 from '../components/Heading1';
 import x from "../assets/x.svg";
+import o from "../assets/o.svg";
 import Board from '../components/Board';
 import Button from "../components/Button";
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import UseUserInfo from '../hooks/UseUserInfo';
-import { partner } from '../hooks/necessaryFns';
+import { getPiece, partner } from '../hooks/necessaryFns';
 
 const PlayGround = () => {
     const [user, userloading, firebaseLoading] = UseUserInfo();
     const [game, setGame] = useState({});
     const [canMove, setCanMove] = useState(false);
-    // const [updatedGame, setUpdatedGame] = useState({});
     const [loading, setLoading] = useState(false);
+    const [moveCount, setMoveCount] = useState(0);
     const id = useParams().id;
+    const navigate = useNavigate();
     useEffect(() => {
         setLoading(true);
         fetch(`http://localhost:5000/get-game/${id}`).then(res => res.json()).then(game => {
             if (game) {
-                game.move === user?.username && setCanMove(true)
                 setGame(game)
+                game.move === user?.username && setCanMove(true)
                 return setLoading(false)
             }
         });
 
-    }, [id, user]);
+    }, [id, user, moveCount]);
 
     if (loading || userloading || firebaseLoading || !user?._id || !game._id) {
         return <p> Loading... </p>
     }
+
+    const piece = getPiece(game.pieces, user.username);
+    const piecePlaceholders = { x: x, o: o };
     const handleSubmit = () => {
-        console.log(game.board);
+        if (!game.status.finished) {
+            fetch(`http://localhost:5000/play/${game._id}`, {
+                method: "PATCH",
+                headers: {
+                    "content-type": "application/json"
+                },
+                body: JSON.stringify(game.board)
+            }).then(res => res.json()).then(data => data && setMoveCount(moveCount + 1))
+        }
+        else {
+            navigate("/new-game");
+        }
 
     }
     return (
@@ -46,19 +62,21 @@ const PlayGround = () => {
             <div className='mt-9 mb-2' >
                 <Heading1>Game with {partner(Object.values(game.players), user.username)} </Heading1>
                 <p className='text-[14px] my-2'>Your Piece</p>
-                <img src={x} alt="x icon" />
+                <img src={piecePlaceholders[piece]} alt="piece icon" />
             </div>
 
             {/* Game Board  */}
 
             <Board
+                username={user.username}
                 game={game}
                 setGame={setGame}
                 canMove={canMove}
                 setCanMove={setCanMove}
+                piece={piece}
             />
 
-            <Button onClick={handleSubmit} btnType="primary" >Submit</Button>
+            <Button onClick={handleSubmit} btnType={`${game.status.finished ? "primary" : game.move === user?.username ? "primary" : "disabled"}`} > {game.status.finished ? "start a new game!" : game.move === user?.username ? "submit" : `waiting for ${partner(Object.values(game.players), user.username)}'s move`} </Button>
 
         </div>
     );
