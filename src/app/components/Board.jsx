@@ -9,6 +9,7 @@ const Board = ({ game, setGame, canMove, setCanMove, piece, username }) => {
     const { board } = game;
     const piecePlaceholders = { x: x, o: o };
     const makeMove = k => {
+        console.log(k)
         setCanMove(false)
         setLocked(true)
         const newBoardMap = { ...board };

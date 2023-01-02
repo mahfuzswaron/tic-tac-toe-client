@@ -7,6 +7,8 @@ import Button from "../components/Button";
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import UseUserInfo from '../hooks/UseUserInfo';
 import { getPiece, partner } from '../hooks/necessaryFns';
+import io from "socket.io-client";
+const socket = io.connect("http://localhost:5000")
 
 const PlayGround = () => {
     const [user, userloading, firebaseLoading] = UseUserInfo();
@@ -16,17 +18,36 @@ const PlayGround = () => {
     const [moveCount, setMoveCount] = useState(0);
     const id = useParams().id;
     const navigate = useNavigate();
-    useEffect(() => {
+    const fetchGame = (gameId, setMovePermission, joinRoom) => {
         setLoading(true);
-        fetch(`http://localhost:5000/get-game/${id}`).then(res => res.json()).then(game => {
+        fetch(`http://localhost:5000/get-game/${gameId}`).then(res => res.json()).then(game => {
             if (game) {
                 setGame(game)
-                game.move === user?.username && setCanMove(true)
+                setMovePermission && game.move === user?.username && setCanMove(true)
+                joinRoom && socket.emit("join_room", game._id); // joining the room
                 return setLoading(false)
             }
         });
+    }
+    useEffect(() => {
+        // setLoading(true);
+        // fetch(`http://localhost:5000/get-game/${id}`).then(res => res.json()).then(game => {
+        //     if (game) {
+        //         setGame(game)
+        //         game.move === user?.username && setCanMove(true)
+        //         socket.emit("join_room", game._id); // joining the room
+        //         return setLoading(false)
+        //     }
+        // });
+        fetchGame(id, true, true)
 
     }, [id, user, moveCount]);
+
+    useEffect(() => {
+        socket.on("get_move", (data) => {
+            fetchGame(data.gameId, true, false)
+        })
+    }, [socket])
 
     if (loading || userloading || firebaseLoading || !user?._id || !game._id) {
         return <p> Loading... </p>
@@ -42,7 +63,12 @@ const PlayGround = () => {
                     "content-type": "application/json"
                 },
                 body: JSON.stringify(game.board)
-            }).then(res => res.json()).then(data => data && setMoveCount(moveCount + 1))
+            }).then(res => res.json()).then(data => {
+                if (data) {
+                    setMoveCount(moveCount + 1)
+                    socket.emit("set_move", { gameId: game._id, message: `${user.username} has moved` });
+                }
+            })
         }
         else {
             navigate("/new-game");
