@@ -15,48 +15,51 @@ const PlayGround = () => {
     const [game, setGame] = useState({});
     const [canMove, setCanMove] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [moveCount, setMoveCount] = useState(0);
+    const [locked, setLocked] = useState(false);
     const id = useParams().id;
     const navigate = useNavigate();
-    const fetchGame = (gameId, setMovePermission, joinRoom) => {
+    const fetchGame = (gameId, joinRoom) => {
         setLoading(true);
         fetch(`http://localhost:5000/get-game/${gameId}`).then(res => res.json()).then(game => {
             if (game) {
                 setGame(game)
-                setMovePermission && game.move === user?.username && setCanMove(true)
-                joinRoom && socket.emit("join_room", game._id); // joining the room
                 return setLoading(false)
             }
         });
     }
+    // initialize game and join room by game id
     useEffect(() => {
-        // setLoading(true);
-        // fetch(`http://localhost:5000/get-game/${id}`).then(res => res.json()).then(game => {
-        //     if (game) {
-        //         setGame(game)
-        //         game.move === user?.username && setCanMove(true)
-        //         socket.emit("join_room", game._id); // joining the room
-        //         return setLoading(false)
-        //     }
-        // });
-        fetchGame(id, true, true)
+        socket.emit("join_room", id);
+        fetchGame(id)
+    }, [id])
 
-    }, [id, user, moveCount]);
-
+    // listen to opponent's move 
     useEffect(() => {
         socket.on("get_move", (data) => {
-            fetchGame(data.gameId, true, false)
+            fetchGame(data.gameId)
         })
     }, [socket])
+
+    // update moving access and board lock
+    useEffect(() => {
+        if (game.move === user?.username) {
+            setCanMove(true)
+            setLocked(false)
+        }
+        else {
+            setCanMove(false)
+            setLocked(true)
+        }
+    }, [game.move, user.username])
 
     if (loading || userloading || firebaseLoading || !user?._id || !game._id) {
         return <p> Loading... </p>
     }
-
+    console.log(new Date().getMinutes(), canMove)
     const piece = getPiece(game.pieces, user.username);
     const piecePlaceholders = { x: x, o: o };
     const handleSubmit = () => {
-        if (!game.status.finished) {
+        if (!game.status.finished && game.move === user.username) {
             fetch(`http://localhost:5000/play/${game._id}`, {
                 method: "PATCH",
                 headers: {
@@ -65,7 +68,7 @@ const PlayGround = () => {
                 body: JSON.stringify(game.board)
             }).then(res => res.json()).then(data => {
                 if (data) {
-                    setMoveCount(moveCount + 1)
+                    setCanMove(false)
                     socket.emit("set_move", { gameId: game._id, message: `${user.username} has moved` });
                 }
             })
@@ -100,6 +103,8 @@ const PlayGround = () => {
                 canMove={canMove}
                 setCanMove={setCanMove}
                 piece={piece}
+                locked={locked}
+                setLocked={setLocked}
             />
 
             <Button onClick={handleSubmit}

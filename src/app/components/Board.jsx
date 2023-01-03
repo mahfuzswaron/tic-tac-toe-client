@@ -2,14 +2,12 @@ import React, { } from 'react';
 import x from "../assets/x.svg";
 import o from "../assets/o.svg";
 import { pronoun } from '../hooks/necessaryFns';
-import { useState } from 'react';
+// import { useState } from 'react';
 
-const Board = ({ game, setGame, canMove, setCanMove, piece, username }) => {
-    const [locked, setLocked] = useState(false);
+const Board = ({ game, setGame, canMove, setCanMove, piece, username, locked, setLocked }) => {
     const { board } = game;
     const piecePlaceholders = { x: x, o: o };
     const makeMove = k => {
-        console.log(k)
         setCanMove(false)
         setLocked(true)
         const newBoardMap = { ...board };
