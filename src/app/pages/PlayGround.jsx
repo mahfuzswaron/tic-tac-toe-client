@@ -19,6 +19,7 @@ const PlayGround = () => {
     const id = useParams().id;
     const navigate = useNavigate();
     const fetchGame = (gameId, joinRoom) => {
+        console.log("game fetched")
         setLoading(true);
         fetch(`http://localhost:5000/get-game/${gameId}`).then(res => res.json()).then(game => {
             if (game) {
@@ -31,12 +32,12 @@ const PlayGround = () => {
     useEffect(() => {
         socket.emit("join_room", id);
         fetchGame(id)
-    }, [id])
+    }, [id, user])
 
     // listen to opponent's move 
     useEffect(() => {
-        socket.on("get_move", (data) => {
-            fetchGame(data.gameId)
+        socket.on("get_data", (data) => {
+            fetchGame(data.roomId)
         })
     }, [socket])
 
@@ -59,7 +60,10 @@ const PlayGround = () => {
     const piece = getPiece(game.pieces, user.username);
     const piecePlaceholders = { x: x, o: o };
     const handleSubmit = () => {
-        if (!game.status.finished && game.move === user.username) {
+        if (!locked) {
+            return alert("make your move first")
+        }
+        else if (!game.status.finished && game.move === user.username && locked) {
             fetch(`http://localhost:5000/play/${game._id}`, {
                 method: "PATCH",
                 headers: {
@@ -68,8 +72,9 @@ const PlayGround = () => {
                 body: JSON.stringify(game.board)
             }).then(res => res.json()).then(data => {
                 if (data) {
-                    setCanMove(false)
-                    socket.emit("set_move", { gameId: game._id, message: `${user.username} has moved` });
+                    // setCanMove(false)
+                    fetchGame(game._id)
+                    socket.emit("set_data", { roomId: game._id, message: `${user.username} has moved` });
                 }
             })
         }
@@ -108,8 +113,8 @@ const PlayGround = () => {
             />
 
             <Button onClick={handleSubmit}
-                btnType={`${game.status.finished ? "primary" : game.move === user?.username ? "primary" : "disabled"}`} >
-                {game.status.finished ? "start a new game!" : game.move === user?.username ? "submit!" : `waiting for ${partner(Object.values(game.players), user.username)}'s move`}
+                btnType={`${game.status.finished ? "primary" : canMove ? "primary" : "disabled"}`} >
+                {game.status.finished ? "start a new game!" : canMove ? "submit!" : `waiting for ${partner(Object.values(game.players), user.username)}'s move`}
             </Button>
 
         </div>

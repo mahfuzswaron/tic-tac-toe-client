@@ -8,7 +8,7 @@ const Board = ({ game, setGame, canMove, setCanMove, piece, username, locked, se
     const { board } = game;
     const piecePlaceholders = { x: x, o: o };
     const makeMove = k => {
-        setCanMove(false)
+        // setCanMove(false)
         setLocked(true)
         const newBoardMap = { ...board };
         newBoardMap[k] = piece;
@@ -30,7 +30,7 @@ const Board = ({ game, setGame, canMove, setCanMove, piece, username, locked, se
                     Object.keys(board).map(k => <div key={k} className={`
                     p-5 bg-pri border-[#FFE79E] flex justify-center itmes-center
                     ${k === "b2" ? "border-4" : k[1] === "2" ? "border-r-4 border-l-4" : k[0] === "b" && "border-t-4 border-b-4"}
-                    ${board[k] ? "pointer-events-none" : locked ? "pointer-events-none" : canMove ? "" : "pointer-events-none"}
+                    ${board[k] ? "pointer-events-none" : locked ? "pointer-events-none" : ""}
                     
 
                     `}

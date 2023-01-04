@@ -4,12 +4,20 @@ import Button from '../components/Button';
 import Heading1 from '../components/Heading1';
 import Heading2 from '../components/Heading2';
 import UseUserInfo from '../hooks/UseUserInfo';
+import io from "socket.io-client";
+import { useEffect } from 'react';
+const socket = io.connect("http://localhost:5000");
 
 const NewGame = () => {
     const [user, loading, fireabaseLoading] = UseUserInfo();
     const [email, setEmail] = useState("");
+    const [joinRoom, setJoinRoom] = useState(false);
     const navigate = useNavigate();
+    useEffect(() => {
+        socket.emit("join_room", email)
+    }, [joinRoom])
     const startGame = () => {
+        setJoinRoom(true)
         fetch("http://localhost:5000/start-game", {
             method: "POST",
             headers: {
@@ -18,6 +26,7 @@ const NewGame = () => {
             body: JSON.stringify({ user: user.email, partner: email })
         }).then(response => response.json()).then(result => {
             if (result.success) {
+                socket.emit("set_data", { roomId: email, message: "game created" })
                 navigate(`/play-ground/${result.insertedId}`)
             }
             else {

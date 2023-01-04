@@ -4,6 +4,8 @@ import Button from '../components/Button';
 import GameCard from '../components/GameCard';
 import Heading1 from "../components/Heading1";
 import UseUserInfo from '../hooks/UseUserInfo';
+import io from "socket.io-client";
+const socket = io.connect("http://localhost:5000");
 
 const NoGameDiv = <div className=' flex-grow flex flex-col justify-center items-center my-auto max-h-min w-full'>
     <h1 className='text-6xl text-center font-bilbo mb-6' >No Games Found</h1>
@@ -13,11 +15,19 @@ const NoGameDiv = <div className=' flex-grow flex flex-col justify-center items-
 const Home = () => {
     const [games, setGames] = useState([]);
     const [user, loading, fireabaseLoading] = UseUserInfo();
+    const fetchGames = username => fetch(`http://localhost:5000/all-games/${username}`).then(res => res.json()).then(data => setGames(data));
+
     useEffect(() => {
-        const url = `http://localhost:5000/all-games/${user?.username}`;
-        fetch(url).then(res => res.json()).then(data => setGames(data))
+        socket.emit("join_room", user?.email);
+        fetchGames(user?.username)
     }, [user]);
-    // console.log(loading, fireabaseLoading, user?._id)
+
+    useEffect(() => {
+        socket.on("get_data", () => {
+            fetchGames(user?.username)
+        })
+    }, [socket, user]);
+
     if (loading || fireabaseLoading || !user?._id) {
         return <p>user loading in home...</p>
     }
