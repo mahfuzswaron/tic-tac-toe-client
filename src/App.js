@@ -9,11 +9,12 @@ import NotFound from "./app/pages/NotFound";
 import auth from "./firebase.init";
 import AuthWall from "./app/pages/AuthWall";
 import { useSignOut } from 'react-firebase-hooks/auth';
+import Loader from "./app/components/Loader/Loader";
 
 function App() {
   const [signOut, signOutLoading] = useSignOut(auth);
 
-  if (signOutLoading) return <p> App loading...</p>
+  if (signOutLoading) return <Loader message={"Logging out..."} />
 
   return (
     <div className="max-w-sm min-h-screen grid grid-cols-1 mx-auto p-4 border rounded-lg bg-white" >

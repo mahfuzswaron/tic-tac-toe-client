@@ -1,22 +1,19 @@
 import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-// import { useNavigate } from 'react-router-dom';
 import auth from '../../firebase.init';
+import Loader from '../components/Loader/Loader';
 import Entry from './Entry';
 
 const AuthWall = ({ children }) => {
     const [user, loading] = useAuthState(auth);
-    // const navigate = useNavigate();
     if (loading) {
-        return <p> auth loading...</p>
+        return <Loader message={"Authenticating..."} />
     }
     else if (!user) {
-        // console.log(user)
         return <Entry />
 
     }
     else {
-        // console.log("user :", user)
         return children
     }
 };

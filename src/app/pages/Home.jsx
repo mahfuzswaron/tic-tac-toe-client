@@ -5,6 +5,7 @@ import GameCard from '../components/GameCard';
 import Heading1 from "../components/Heading1";
 import UseUserInfo from '../hooks/UseUserInfo';
 import io from "socket.io-client";
+import Loader from '../components/Loader/Loader';
 const socket = io.connect("http://localhost:5000");
 
 const NoGameDiv = <div className=' flex-grow flex flex-col justify-center items-center my-auto max-h-min w-full'>
@@ -29,7 +30,7 @@ const Home = () => {
     }, [socket, user]);
 
     if (loading || fireabaseLoading || !user?._id) {
-        return <p>user loading in home...</p>
+        return <Loader message={"Games Loading..."} />
     }
     // console.log(games)
     return (

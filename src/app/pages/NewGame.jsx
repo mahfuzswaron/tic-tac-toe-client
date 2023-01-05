@@ -6,6 +6,7 @@ import Heading2 from '../components/Heading2';
 import UseUserInfo from '../hooks/UseUserInfo';
 import io from "socket.io-client";
 import { useEffect } from 'react';
+import Loader from '../components/Loader/Loader';
 const socket = io.connect("http://localhost:5000");
 
 const NewGame = () => {
@@ -35,7 +36,7 @@ const NewGame = () => {
         })
     }
     if (loading || fireabaseLoading || !user?._id) {
-        return <p>user loading...</p>
+        return <Loader message={"Please wait..."} />
     }
 
     return (

@@ -6,6 +6,7 @@ import Info from '../components/Info';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import auth from '../../firebase.init';
+import Loader from '../components/Loader/Loader';
 
 const inputClasses = "mt-3 p-3 rounded-lg bg-gray w-full";
 
@@ -57,11 +58,9 @@ const Login = () => {
     };
 
     if (loading) {
-        return <p>loading...</p>
+        return <Loader message={"Logging in..."} />
     }
 
-
-    // console.log("<<<", user)
     if (user) {
         navigate("/")
     }

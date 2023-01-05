@@ -6,6 +6,7 @@ import Info from '../components/Info';
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import { Link, useNavigate } from 'react-router-dom';
+import Loader from '../components/Loader/Loader';
 
 
 const inputClasses = "mt-3 p-3 rounded-lg bg-gray w-full";
@@ -65,7 +66,7 @@ const Register = () => {
     }
 
     if (loading) {
-        return <p>Loaidng...</p>
+        return <Loader message={"Joining..."} />
     }
     if (user) {
         navigate("/")

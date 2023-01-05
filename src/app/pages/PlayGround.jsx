@@ -8,6 +8,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import UseUserInfo from '../hooks/UseUserInfo';
 import { getPiece, partner } from '../hooks/necessaryFns';
 import io from "socket.io-client";
+import Loader from '../components/Loader/Loader';
 const socket = io.connect("http://localhost:5000")
 
 const PlayGround = () => {
@@ -54,13 +55,13 @@ const PlayGround = () => {
     }, [game.move, user.username])
 
     if (loading || userloading || firebaseLoading || !user?._id || !game._id) {
-        return <p> Loading... </p>
+        return <Loader message={"Please wait..."} />
     }
     console.log(new Date().getMinutes(), canMove)
     const piece = getPiece(game.pieces, user.username);
     const piecePlaceholders = { x: x, o: o };
     const handleSubmit = () => {
-        if (!locked) {
+        if (!locked && !game.status.finished) {
             return alert("make your move first")
         }
         else if (!game.status.finished && game.move === user.username && locked) {
@@ -114,7 +115,7 @@ const PlayGround = () => {
 
             <Button onClick={handleSubmit}
                 btnType={`${game.status.finished ? "primary" : canMove ? "primary" : "disabled"}`} >
-                {game.status.finished ? "start a new game!" : canMove ? "submit!" : `waiting for ${partner(Object.values(game.players), user.username)}'s move`}
+                {game.status.finished ? "start a new game!" : canMove ? "submit!" : `waiting for ${partner(Object.values(game.players), user.username)}`}
             </Button>
 
         </div>
