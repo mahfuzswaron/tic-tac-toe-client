@@ -1,12 +1,15 @@
 import React, { } from 'react';
 import x from "../assets/x.svg";
 import o from "../assets/o.svg";
+import xPlaceholder from "../assets/x-placeholder.svg";
+import oPlaceholder from "../assets/o-placeholder.svg";
 import { pronoun } from '../hooks/necessaryFns';
-// import { useState } from 'react';
 
 const Board = ({ game, setGame, canMove, setCanMove, piece, username, locked, setLocked }) => {
     const { board } = game;
-    const piecePlaceholders = { x: x, o: o };
+    const pieceIcon = { x: x, o: o };
+    const pieceIconPlaceholder = { x: xPlaceholder, o: oPlaceholder };
+
     const makeMove = k => {
         // setCanMove(false)
         setLocked(true)
@@ -36,7 +39,8 @@ const Board = ({ game, setGame, canMove, setCanMove, piece, username, locked, se
                     `}
                         onClick={() => makeMove(k)}
                     >
-                        <img className={`${k !== "" && "h-16 w-16"} `} src={piecePlaceholders[board[k]] || ""} alt=" " />
+                        {/* `${k !== "" && "h-16 w-16"} ` */}
+                        <img className={"h-16 w-16"} src={board[k] ? pieceIcon[board[k]] : pieceIconPlaceholder[piece]} alt=" " />
                     </div>)
                 }
             </div>
