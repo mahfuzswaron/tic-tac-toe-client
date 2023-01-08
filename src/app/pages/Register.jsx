@@ -11,7 +11,7 @@ import Loader from '../components/Loader/Loader';
 
 const inputClasses = "mt-3 p-3 rounded-lg bg-gray w-full";
 
-const Register = () => {
+const Register = ({ clickSound }) => {
     const [formValue, setFormValue] = useState({
         name: "",
         username: "",
@@ -34,7 +34,7 @@ const Register = () => {
     }
     const registerUser = async (e) => {
         e.preventDefault();
-
+        clickSound.play();
         fetch("http://localhost:5000/register", {
             method: "POST",
             headers: {
@@ -69,6 +69,7 @@ const Register = () => {
         return <Loader message={"Joining..."} />
     }
     if (user) {
+        localStorage.setItem("sound", true)
         navigate("/")
     }
 

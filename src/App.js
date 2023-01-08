@@ -10,9 +10,15 @@ import auth from "./firebase.init";
 import AuthWall from "./app/pages/AuthWall";
 import { useSignOut } from 'react-firebase-hooks/auth';
 import Loader from "./app/components/Loader/Loader";
+import { useEffect, useState } from "react";
+const clickSound = new Audio("/buttonClick.wav");
 
 function App() {
   const [signOut, signOutLoading] = useSignOut(auth);
+  const [sound, setSound] = useState(true);
+  useEffect(() => {
+    setSound(localStorage.getItem("sound") === "true");
+  }, [])
 
   if (signOutLoading) return <Loader message={"Logging out..."} />
 
@@ -20,29 +26,32 @@ function App() {
     <div className="max-w-sm min-h-screen grid grid-cols-1 mx-auto p-4 border rounded-lg bg-white" >
       <Routes>
         <Route path="/" element={<AuthWall>
-          <Home />
+          <Home sound={sound} clickSound={clickSound} />
         </AuthWall>} />
         <Route path="/home" element={<AuthWall>
-          <Home />
+          <Home sound={sound} clickSound={clickSound} />
         </AuthWall>} />
-        <Route path="/entry" element={<Entry />} />
+        <Route path="/entry" element={<Entry sound={sound} clickSound={clickSound} />} />
 
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login sound={sound} clickSound={clickSound} />} />
+        <Route path="/register" element={<Register clickSound={clickSound} />} />
         <Route path="/new-game" element={<AuthWall>
-          <NewGame />
+          <NewGame sound={sound} clickSound={clickSound} />
         </AuthWall>} />
         <Route path="/play-ground/:id" element={<AuthWall>
-          <PlayGround />
+          <PlayGround sound={sound} clickSound={clickSound} setSound={setSound} />
         </AuthWall>} />
 
-        <Route path="*" element={<NotFound />} />
+        <Route path="*" element={<NotFound sound={sound} clickSound={clickSound} />} />
       </Routes>
 
       <button className="mt-10" onClick={async () => {
-        const success = await signOut();
-        if (success) {
-          alert('You are sign out');
+        const sure = window.confirm("Are you sure to log out?");
+        if (sure) {
+          const success = await signOut();
+          if (success) {
+            alert('You are sign out');
+          }
         }
       }} > log-out</button>
     </div>

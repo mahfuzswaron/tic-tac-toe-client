@@ -2,13 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import Button from './Button';
 
-const GameCard = ({ game, username }) => {
+const GameCard = ({ game, username, sound, clickSound }) => {
     const { _id, players, status, lastUpdated } = game;
     const partner = Object.values(players).find(p => p !== username);
     const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     const makeBidigital = (num) => num > 9 ? num : "0" + num;
     const date = new Date(Date.parse(lastUpdated));
-    const day = date.getDay();
+    const day = date.getDay() + 1;
     const month = months[date.getMonth()];
     const year = date.getFullYear();
     const hours = date.getHours();
@@ -22,7 +22,7 @@ const GameCard = ({ game, username }) => {
             <h1 className='text-2xl font-bold' >Game with {partner} </h1>
             <p className='whitespace-pre-line ' >{status.message[username]}</p>
             <p className='text-sm'>{dateString} </p >
-            <Link to={`/play-ground/${_id}`}><Button btnType={"primary"} >Play!</Button></Link>
+            <Link onClick={() => sound && clickSound.play()} to={`/play-ground/${_id}`}><Button btnType={"primary"}>{status.finished ? "View Game" : "Play!"}</Button></Link>
         </div>
     );
 };

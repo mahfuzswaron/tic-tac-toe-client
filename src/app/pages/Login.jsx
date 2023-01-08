@@ -10,7 +10,7 @@ import Loader from '../components/Loader/Loader';
 
 const inputClasses = "mt-3 p-3 rounded-lg bg-gray w-full";
 
-const Login = () => {
+const Login = ({ sound, clickSound }) => {
     const [formValue, setFormValue] = useState({
         username: "",
         password: "",
@@ -115,7 +115,7 @@ const Login = () => {
                     }
 
                     {/* SUBMIT BUTTON  */}
-                    <Button additionalClasses="mt-4" type="submit" btnType={"primary"} >Login</Button>
+                    <Button onClick={() => sound && clickSound.play()} additionalClasses="mt-4" type="submit" btnType={"primary"} >Login</Button>
                 </div>
             </form>
         </div>

@@ -8,12 +8,7 @@ import io from "socket.io-client";
 import Loader from '../components/Loader/Loader';
 const socket = io.connect("http://localhost:5000");
 
-const NoGameDiv = <div className=' flex-grow flex flex-col justify-center items-center my-auto max-h-min w-full'>
-    <h1 className='text-6xl text-center font-bilbo mb-6' >No Games Found</h1>
-    <Link className='w-full' to="/new-game"><Button btnType={"primary"} >Start a new game</Button></Link>
-</div>
-
-const Home = () => {
+const Home = ({ sound, clickSound }) => {
     const [games, setGames] = useState([]);
     const [user, loading, fireabaseLoading] = UseUserInfo();
     const fetchGames = username => fetch(`http://localhost:5000/all-games/${username}`).then(res => res.json()).then(data => setGames(data));
@@ -41,18 +36,22 @@ const Home = () => {
                     <>
                         <div className="grid grid-cols-1 gap-4 mt-4">
                             {
-                                games.map(g => <GameCard key={g._id} game={g} username={user.username} />)
+                                games.map(g => <GameCard key={g._id} game={g} username={user.username} sound={sound} clickSound={clickSound} />)
                             }
                         </div>
                         <div className='w-[124px] p-2 flex items-center space-x-2 bg-[#270F36] text-white rounded-lg fixed md:mr-[25%] lg:mr-[35%] bottom-6 right-6 z-1'>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-[14px] h-[14px]">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                             </svg>
-                            <Link to="/new-game" ><span className='text-[14px]' >New Game</span></Link>
+                            <Link to="/new-game" ><span className='text-[14px]' onClick={() => sound && clickSound.play()} >New Game</span></Link>
                         </div>
                     </>
                     :
-                    NoGameDiv
+                    <div className=' flex-grow flex flex-col justify-center items-center my-auto max-h-min w-full'>
+                        <h1 className='text-6xl text-center font-bilbo mb-6' >No Games Found</h1>
+                        <Link className='w-full' to="/new-game" onClick={() => sound && clickSound.play()} ><Button btnType={"primary"} >Start a new game</Button></Link>
+                    </div>
+
             }
         </div>
     );

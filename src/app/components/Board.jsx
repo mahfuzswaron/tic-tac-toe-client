@@ -5,14 +5,15 @@ import xPlaceholder from "../assets/x-placeholder.svg";
 import oPlaceholder from "../assets/o-placeholder.svg";
 import { pronoun } from '../hooks/necessaryFns';
 
-const Board = ({ game, setGame, canMove, setCanMove, piece, username, locked, setLocked }) => {
+const Board = ({ game, setGame, canMove, setCanMove, piece, username, locked, setLocked, sound }) => {
     const { board } = game;
     const pieceIcon = { x: x, o: o };
     const pieceIconPlaceholder = { x: xPlaceholder, o: oPlaceholder };
-
+    const clickSound = new Audio("/clickedSound.wav");
     const makeMove = k => {
         // setCanMove(false)
         setLocked(true)
+        sound && clickSound.play();
         const newBoardMap = { ...board };
         newBoardMap[k] = piece;
         setGame({ ...game, board: newBoardMap });
@@ -34,8 +35,6 @@ const Board = ({ game, setGame, canMove, setCanMove, piece, username, locked, se
                     p-5 bg-pri border-[#FFE79E] flex justify-center itmes-center
                     ${k === "b2" ? "border-4" : k[1] === "2" ? "border-r-4 border-l-4" : k[0] === "b" && "border-t-4 border-b-4"}
                     ${board[k] ? "pointer-events-none" : locked ? "pointer-events-none" : ""}
-                    
-
                     `}
                         onClick={() => makeMove(k)}
                     >

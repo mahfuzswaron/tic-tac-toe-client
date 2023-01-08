@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 import Loader from '../components/Loader/Loader';
 const socket = io.connect("http://localhost:5000");
 
-const NewGame = () => {
+const NewGame = ({ sound, clickSound }) => {
     const [user, loading, fireabaseLoading] = UseUserInfo();
     const [email, setEmail] = useState("");
     const [joinRoom, setJoinRoom] = useState(false);
@@ -18,6 +18,7 @@ const NewGame = () => {
         socket.emit("join_room", email)
     }, [joinRoom])
     const startGame = () => {
+        sound && clickSound.play()
         setJoinRoom(true)
         fetch("http://localhost:5000/start-game", {
             method: "POST",
@@ -42,7 +43,7 @@ const NewGame = () => {
     return (
         <div className='flex flex-col' >
             {/* BACK ARROW  */}
-            <Link to="/"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-[24px] h-[24px] -ml-1">
+            <Link onClick={() => sound && clickSound.play()} to="/"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-[24px] h-[24px] -ml-1">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
             </svg>
             </Link>
