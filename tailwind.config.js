@@ -3,6 +3,7 @@ module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
+  darkMode: "class",
   theme: {
     colors: {
       primary: "#F2C94C",
@@ -10,7 +11,8 @@ module.exports = {
       error: "#EB5757",
       success: "#6FCF97 ",
       white: "#fff",
-      semiBlack: "#333333",
+      darkGray: "#333333",
+      semiBlack: "#18191A",
       gray: "#F4F4F4",
       disabled: '#E0E0E0',
     },

@@ -60,7 +60,7 @@ const NewGame = ({ sound, clickSound }) => {
                 <input
                     type={"email"}
                     placeholder="Type their email here"
-                    className={"mt-3 p-3 rounded-lg bg-gray w-full"}
+                    className={"mt-3 p-3 rounded-lg bg-gray w-full dark:border border-gray dark:bg-semiBlack"}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />

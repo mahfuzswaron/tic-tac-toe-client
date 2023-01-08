@@ -10,9 +10,11 @@
 
 body {
   margin: 0;
+  padding: 1% 0;
   font-family: 'Epilogue' ;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color:#270F36;
 }
 
 input::placeholder{

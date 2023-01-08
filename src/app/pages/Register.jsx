@@ -8,8 +8,7 @@ import auth from "../../firebase.init";
 import { Link, useNavigate } from 'react-router-dom';
 import Loader from '../components/Loader/Loader';
 
-
-const inputClasses = "mt-3 p-3 rounded-lg bg-gray w-full";
+const inputClasses = "mt-3 p-3 w-full rounded-lg bg-gray dark:border border-gray dark:bg-semiBlack";
 
 const Register = ({ clickSound }) => {
     const [formValue, setFormValue] = useState({
@@ -75,7 +74,7 @@ const Register = ({ clickSound }) => {
 
 
     return (
-        <div className='text-semiBlack flex flex-col min-h-screen w-full' >
+        <div className='text-darkGray dark:text-gray flex flex-col min-h-screen w-full' >
 
             {/* BACK ARROW  */}
             <Link to={"/entry"}>

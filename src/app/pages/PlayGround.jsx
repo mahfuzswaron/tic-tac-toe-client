@@ -9,11 +9,12 @@ import UseUserInfo from '../hooks/UseUserInfo';
 import { getPiece, partner } from '../hooks/necessaryFns';
 import io from "socket.io-client";
 import Loader from '../components/Loader/Loader';
+import ThemeSwitcher from '../components/ThemeSwitcher';
 const socket = io.connect("http://localhost:5000");
 
 
 
-const undoBtn = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="w-4 h-4 fill-semiBlack">
+const undoBtn = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="w-4 h-4 fill-darkGray dark:fill-gray">
     <path fillRule="evenodd" d="M7.793 2.232a.75.75 0 01-.025 1.06L3.622 7.25h10.003a5.375 5.375 0 010 10.75H10.75a.75.75 0 010-1.5h2.875a3.875 3.875 0 000-7.75H3.622l4.146 3.957a.75.75 0 01-1.036 1.085l-5.5-5.25a.75.75 0 010-1.085l5.5-5.25a.75.75 0 011.06.025z" clipRule="evenodd" />
 </svg>
 
@@ -22,7 +23,7 @@ const soundBtn = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" cla
     <path d="M13.829 7.172a.75.75 0 00-1.061 1.06 2.5 2.5 0 010 3.536.75.75 0 001.06 1.06 4 4 0 000-5.656z" />
 </svg>
 
-const muteBtn = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="w-5 h-5 fill-semiBlack">
+const muteBtn = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="w-5 h-5 fill-darkGray">
     <path d="M9.547 3.062A.75.75 0 0110 3.75v12.5a.75.75 0 01-1.264.546L4.703 13H3.167a.75.75 0 01-.7-.48A6.985 6.985 0 012 10c0-.887.165-1.737.468-2.52a.75.75 0 01.7-.48h1.535l4.033-3.796a.75.75 0 01.811-.142zM13.28 7.22a.75.75 0 10-1.06 1.06L13.94 10l-1.72 1.72a.75.75 0 001.06 1.06L15 11.06l1.72 1.72a.75.75 0 101.06-1.06L16.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L15 8.94l-1.72-1.72z" />
 </svg>
 
@@ -137,6 +138,7 @@ const PlayGround = ({ sound, setSound, clickSound }) => {
                         <button onClick={handleSound}>
                             {sound ? soundBtn : muteBtn}
                         </button>
+                        <ThemeSwitcher />
                     </div>
 
                 </div>

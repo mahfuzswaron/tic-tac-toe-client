@@ -8,7 +8,7 @@ import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import auth from '../../firebase.init';
 import Loader from '../components/Loader/Loader';
 
-const inputClasses = "mt-3 p-3 rounded-lg bg-gray w-full";
+const inputClasses = "mt-3 p-3 w-full rounded-lg bg-gray dark:border border-gray dark:bg-semiBlack";
 
 const Login = ({ sound, clickSound }) => {
     const [formValue, setFormValue] = useState({
@@ -66,7 +66,7 @@ const Login = ({ sound, clickSound }) => {
     }
 
     return (
-        <div className='text-semiBlack flex flex-col min-h-screen' >
+        <div className='text-darkGray dark:text-gray flex flex-col min-h-screen' >
 
             {/* BACK ARROW  */}
             <Link to={"/entry"}>
