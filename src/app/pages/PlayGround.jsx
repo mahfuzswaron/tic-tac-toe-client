@@ -31,6 +31,7 @@ const PlayGround = ({ sound, setSound, clickSound }) => {
     const [user, userloading, firebaseLoading] = UseUserInfo();
     const [game, setGame] = useState({});
     const [canUndo, setCanUndo] = useState(false);
+    // const [sound, setSound] = useState(true);
     const [canMove, setCanMove] = useState(false);
     const [loading, setLoading] = useState(false);
     const [locked, setLocked] = useState(false);
@@ -62,7 +63,6 @@ const PlayGround = ({ sound, setSound, clickSound }) => {
 
     // update moving access and board lock
     useEffect(() => {
-        console.log(canUndo);
         if (game.move === user?.username) {
             setCanMove(true)
             setLocked(false)
@@ -71,7 +71,7 @@ const PlayGround = ({ sound, setSound, clickSound }) => {
             setCanMove(false)
             setLocked(true)
         }
-    }, [game.move, user.username, canUndo])
+    }, [game.move, user.username])
 
     if (loading || userloading || firebaseLoading || !user?._id || !game._id) {
         return <Loader message={"Please wait..."} />
@@ -107,9 +107,7 @@ const PlayGround = ({ sound, setSound, clickSound }) => {
 
     }
     const handleUndo = () => {
-        sound && clickSound.play();
-        canUndo && fetchGame(id);
-        setCanUndo(false)
+        console.log(canUndo)
     }
     const handleSound = () => {
         sound || clickSound.play();
@@ -130,7 +128,7 @@ const PlayGround = ({ sound, setSound, clickSound }) => {
                 <div className='flex justify-between items-center' >
                     <Heading1>Game with {partner(Object.values(game.players), user.username)} </Heading1>
                     <div className='flex space-x-3 items-center'>
-                        <button onClick={handleUndo} disabled={!canUndo}>
+                        <button onClick={handleUndo}>
                             {undoBtn}
                         </button>
                         <button onClick={handleSound}>
@@ -151,8 +149,6 @@ const PlayGround = ({ sound, setSound, clickSound }) => {
                 setGame={setGame}
                 canMove={canMove}
                 setCanMove={setCanMove}
-                canUndo={canUndo}
-                setCanUndo={setCanUndo}
                 piece={piece}
                 locked={locked}
                 setLocked={setLocked}
