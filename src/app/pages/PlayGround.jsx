@@ -22,7 +22,7 @@ const soundBtn = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" cla
     <path d="M13.829 7.172a.75.75 0 00-1.061 1.06 2.5 2.5 0 010 3.536.75.75 0 001.06 1.06 4 4 0 000-5.656z" />
 </svg>
 
-const muteBtn = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
+const muteBtn = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" className="w-5 h-5 fill-semiBlack">
     <path d="M9.547 3.062A.75.75 0 0110 3.75v12.5a.75.75 0 01-1.264.546L4.703 13H3.167a.75.75 0 01-.7-.48A6.985 6.985 0 012 10c0-.887.165-1.737.468-2.52a.75.75 0 01.7-.48h1.535l4.033-3.796a.75.75 0 01.811-.142zM13.28 7.22a.75.75 0 10-1.06 1.06L13.94 10l-1.72 1.72a.75.75 0 001.06 1.06L15 11.06l1.72 1.72a.75.75 0 101.06-1.06L16.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L15 8.94l-1.72-1.72z" />
 </svg>
 
@@ -71,12 +71,12 @@ const PlayGround = ({ sound, setSound, clickSound }) => {
             setCanMove(false)
             setLocked(true)
         }
-    }, [game.move, user.username])
+    }, [game.move, user.username]);
 
     if (loading || userloading || firebaseLoading || !user?._id || !game._id) {
-        return <Loader message={"Please wait..."} />
+        return <Loader />
     }
-    // console.log(new Date().getMinutes(), canMove)
+
     const piece = getPiece(game.pieces, user.username);
     const piecePlaceholders = { x: x, o: o };
     const handleSubmit = () => {
@@ -107,7 +107,10 @@ const PlayGround = ({ sound, setSound, clickSound }) => {
 
     }
     const handleUndo = () => {
-        console.log(canUndo)
+        setCanUndo(false);
+        fetchGame(id);
+        setLocked(false);
+        setCanMove(true);
     }
     const handleSound = () => {
         sound || clickSound.play();
@@ -128,7 +131,7 @@ const PlayGround = ({ sound, setSound, clickSound }) => {
                 <div className='flex justify-between items-center' >
                     <Heading1>Game with {partner(Object.values(game.players), user.username)} </Heading1>
                     <div className='flex space-x-3 items-center'>
-                        <button onClick={handleUndo}>
+                        <button onClick={handleUndo} disabled={!canUndo}>
                             {undoBtn}
                         </button>
                         <button onClick={handleSound}>
@@ -149,6 +152,7 @@ const PlayGround = ({ sound, setSound, clickSound }) => {
                 setGame={setGame}
                 canMove={canMove}
                 setCanMove={setCanMove}
+                setCanUndo={setCanUndo}
                 piece={piece}
                 locked={locked}
                 setLocked={setLocked}

@@ -5,15 +5,15 @@ import xPlaceholder from "../assets/x-placeholder.svg";
 import oPlaceholder from "../assets/o-placeholder.svg";
 import { pronoun } from '../hooks/necessaryFns';
 
-const Board = ({ game, setGame, canMove, setCanMove, piece, username, locked, setLocked, sound }) => {
+const Board = ({ game, setGame, setCanUndo, piece, username, locked, setLocked, sound }) => {
     const { board } = game;
     const pieceIcon = { x: x, o: o };
     const pieceIconPlaceholder = { x: xPlaceholder, o: oPlaceholder };
     const clickSound = new Audio("/clickedSound.wav");
     const makeMove = k => {
-        // setCanMove(false)
-        setLocked(true)
         sound && clickSound.play();
+        setLocked(true)
+        setCanUndo(true)
         const newBoardMap = { ...board };
         newBoardMap[k] = piece;
         setGame({ ...game, board: newBoardMap });
