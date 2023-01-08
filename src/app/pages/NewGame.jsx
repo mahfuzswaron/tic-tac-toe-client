@@ -18,7 +18,6 @@ const NewGame = ({ sound, clickSound }) => {
         socket.emit("join_room", email)
     }, [joinRoom])
     const startGame = () => {
-        sound && clickSound.play()
         setJoinRoom(true)
         fetch("http://localhost:5000/start-game", {
             method: "POST",
@@ -67,7 +66,10 @@ const NewGame = ({ sound, clickSound }) => {
             </div>
 
             <div className='h-full flex items-end'>
-                <Button btnType="primary" onClick={startGame} >Start game</Button>
+                <Button btnType="primary" onClick={() => {
+                    sound && clickSound.play();
+                    startGame();
+                }} >Start game</Button>
             </div>
 
         </div>
