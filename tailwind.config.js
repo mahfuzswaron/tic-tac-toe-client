@@ -13,6 +13,7 @@ module.exports = {
       white: "#fff",
       darkGray: "#333333",
       semiBlack: "#18191A",
+      dark_bg: "#1A1C1D",
       gray: "#F4F4F4",
       disabled: '#E0E0E0',
     },

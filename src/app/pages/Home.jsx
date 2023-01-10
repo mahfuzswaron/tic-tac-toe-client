@@ -10,8 +10,12 @@ const socket = io.connect("http://localhost:5000");
 
 const Home = ({ sound, clickSound }) => {
     const [games, setGames] = useState([]);
+    const [gamesLoading, setGamesLoading] = useState(false);
     const [user, loading, fireabaseLoading] = UseUserInfo();
-    const fetchGames = username => fetch(`http://localhost:5000/all-games/${username}`).then(res => res.json()).then(data => setGames(data));
+    const fetchGames = username => fetch(`http://localhost:5000/all-games/${username}`).then(res => res.json()).then(data => {
+        setGames(data)
+        setGamesLoading(false)
+    });
 
     useEffect(() => {
         socket.emit("join_room", user?.email);
@@ -20,11 +24,12 @@ const Home = ({ sound, clickSound }) => {
 
     useEffect(() => {
         socket.on("get_data", () => {
+            setGamesLoading(true)
             fetchGames(user?.username)
         })
     }, [socket, user]);
 
-    if (loading || fireabaseLoading || !user?._id) {
+    if (loading || fireabaseLoading || !user?._id || gamesLoading) {
         return <Loader message={"Games Loading..."} />
     }
     // console.log(games)

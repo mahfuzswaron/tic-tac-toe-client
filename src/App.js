@@ -19,6 +19,9 @@ function App() {
   const [sound, setSound] = useState(true);
   useEffect(() => {
     setSound(localStorage.getItem("sound") === "true");
+    const root = window.document.documentElement;
+    root.classList.remove("dark", "light");
+    root.classList.add(localStorage.theme);
   }, [])
 
   if (signOutLoading) return <Loader message={"Logging out..."} />

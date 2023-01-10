@@ -14,7 +14,7 @@ body {
   font-family: 'Epilogue' ;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color:#270F36;
+  background-color:#1A1C1D;
 }
 
 input::placeholder{
