@@ -41,33 +41,35 @@ const NewGame = ({ sound, clickSound }) => {
     }
 
     return (
-        <div className='flex flex-col' >
-            {/* BACK ARROW  */}
-            <Link onClick={() => sound && clickSound.play()} to="/"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-[24px] h-[24px] -ml-1">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-            </svg>
-            </Link>
-
-            <div className='my-9' >
-                <Heading2>Start a new game</Heading2>
-                <Heading1 additionalClasses="mt-[9px] " >Whom do you want to play with?</Heading1>
-            </div>
-
+        <div className='flex flex-col h-screen' >
             <div>
-                {/* EMAIL  */}
+                {/* BACK ARROW  */}
+                <Link onClick={() => sound && clickSound.play()} to="/"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-[24px] h-[24px] -ml-1">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+                </svg>
+                </Link>
 
-                <Heading2 additionalClasses={'mt-4'} >Email</Heading2>
-                <input
-                    type={"email"}
-                    placeholder="Type their email here"
-                    className={"mt-3 p-3 rounded-lg bg-gray w-full dark:border border-gray dark:bg-semiBlack"}
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
+                <div className='my-9' >
+                    <Heading2>Start a new game</Heading2>
+                    <Heading1 additionalClasses="mt-[9px] " >Whom do you want to play with?</Heading1>
+                </div>
             </div>
 
-            <div className='h-full flex items-end'>
-                <Button btnType="primary" onClick={startGame} >Start game</Button>
+            <div className='flex flex-col h-full justify-between' >
+                {/* EMAIL  */}
+                <div>
+                    <Heading2 additionalClasses={'mt-4'} >Email</Heading2>
+                    <input
+                        type={"email"}
+                        placeholder="Type their email here"
+                        className={"mt-3 p-3 rounded-lg bg-gray w-full dark:border border-gray dark:bg-semiBlack"}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                </div>
+                <div className='mb-5'>
+                    <Button btnType="primary" onClick={startGame} >Start game</Button>
+                </div>
             </div>
 
         </div>

@@ -49,7 +49,7 @@ function App() {
         <Route path="*" element={<NotFound sound={sound} clickSound={clickSound} />} />
       </Routes>
 
-      <button className="mt-10" onClick={async () => {
+      <button className="mt-[1%] h-min" onClick={async () => {
         const sure = window.confirm("Are you sure to log out?");
         if (sure) {
           const success = await signOut();
@@ -57,8 +57,11 @@ function App() {
             alert('You are sign out');
           }
         }
-      }} > log-out</button>
-      {/* <ThemeSwitcher /> */}
+      }} >
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} className="w-6 h-6 mx-auto stroke-darkGray">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9" />
+        </svg>
+      </button>
     </div>
   );
 }
