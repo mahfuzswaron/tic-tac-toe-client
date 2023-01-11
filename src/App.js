@@ -49,7 +49,7 @@ function App() {
         <Route path="*" element={<NotFound sound={sound} clickSound={clickSound} />} />
       </Routes>
 
-      <button className="mt-[1%] h-min" onClick={async () => {
+      <button className="mt-[10%] h-min max-w-min mx-auto" onClick={async () => {
         const sure = window.confirm("Are you sure to log out?");
         if (sure) {
           const success = await signOut();

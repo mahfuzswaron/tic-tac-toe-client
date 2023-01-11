@@ -14,17 +14,17 @@ const Home = ({ sound, clickSound }) => {
     const [user, loading, fireabaseLoading] = UseUserInfo();
     const fetchGames = username => fetch(`http://localhost:5000/all-games/${username}`).then(res => res.json()).then(data => {
         setGames(data)
-        setGamesLoading(false)
+        return setGamesLoading(false)
     });
 
     useEffect(() => {
         socket.emit("join_room", user?.email);
+        setGamesLoading(true)
         fetchGames(user?.username)
     }, [user]);
 
     useEffect(() => {
         socket.on("get_data", () => {
-            setGamesLoading(true)
             fetchGames(user?.username)
         })
     }, [socket, user]);
