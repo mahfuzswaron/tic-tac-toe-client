@@ -20,6 +20,16 @@ const NewGame = ({ sound, clickSound, setModal, setOpenModal }) => {
     const startGame = () => {
         sound && clickSound.play()
         setJoinRoom(true)
+        if (!email) {
+            setModal({
+                message: "please enter a valid email first",
+                buttons: [
+                    { type: "primary", text: "ok", onClick: () => setOpenModal(false) }
+                ]
+            })
+            setOpenModal(true);
+            return
+        }
         fetch("http://localhost:5000/start-game", {
             method: "POST",
             headers: {

@@ -10,6 +10,7 @@ import { getPiece, partner } from '../hooks/necessaryFns';
 import io from "socket.io-client";
 import Loader from '../components/Loader/Loader';
 import ThemeSwitcher from '../components/ThemeSwitcher';
+import CongratulaitonsModal from '../components/CongratulaitonsModal';
 const socket = io.connect("http://localhost:5000");
 
 
@@ -32,19 +33,19 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
     const [user, userloading, firebaseLoading] = UseUserInfo();
     const [game, setGame] = useState({});
     const [canUndo, setCanUndo] = useState(false);
-    // const [sound, setSound] = useState(true);
+    const [congrats, setCongrats] = useState(false);
     const [canMove, setCanMove] = useState(false);
     const [loading, setLoading] = useState(false);
     const [locked, setLocked] = useState(false);
     const id = useParams().id;
     const navigate = useNavigate();
-    const fetchGame = (gameId, joinRoom) => {
-        // console.log("game fetched")
+    const fetchGame = (gameId, bySubmit) => {
         setLoading(true);
         fetch(`http://localhost:5000/get-game/${gameId}`).then(res => res.json()).then(game => {
             if (game) {
                 setGame(game)
-                return setLoading(false)
+                setLoading(false)
+                if (bySubmit && game?.status?.finished && game.winner === user.username) return setCongrats(true)
             }
         });
     }
@@ -103,8 +104,8 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
                 body: JSON.stringify(game.board)
             }).then(res => res.json()).then(data => {
                 if (data) {
-                    fetchGame(game._id)
-                    socket.emit("set_data", { roomId: game._id, message: `${user.username} has moved` });
+                    fetchGame(game._id, true)
+                    socket.emit("set_data", { roomId: game._id, message: `${user.username} has moved` })
                 }
             })
         }
@@ -125,7 +126,7 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
         setSound(!sound)
     }
     return (
-        <div className=''>
+        <div onClick={() => setCongrats(false)}>
             {/* BACK ARROW  */}
             <Link to="/" onClick={() => clickSound.play()} >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-[24px] h-[24px] -ml-1">
@@ -155,6 +156,7 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
 
             {/* Game Board  */}
 
+
             <Board
                 username={user.username}
                 game={game}
@@ -172,6 +174,10 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
                 btnType={`${game.status.finished ? "primary" : canMove ? "primary" : "disabled"}`} >
                 {game.status.finished ? "start a new game!" : canMove ? "submit!" : `waiting for ${partner(Object.values(game.players), user.username)}`}
             </Button>
+
+            {
+                congrats && <CongratulaitonsModal />
+            }
 
         </div>
     );
