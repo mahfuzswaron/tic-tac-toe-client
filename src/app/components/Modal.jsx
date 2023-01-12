@@ -19,7 +19,7 @@ const Modal = ({ modal }) => {
 
     */
     return (
-        <div className='bg-gray dark:bg-darkGray rounded-lg p-5 max-w-[70%] z-1 fixed top-1/2 left-[4.5rem]' >
+        <div className='bg-gray dark:bg-darkGray rounded-lg p-5 max-w-[70%] z-1 fixed top-[35%] left-[4.5rem] shadow-[2px_2px_16px_0_rgba(0,0,0,0.16)]' >
             <h3 className='text-xs mb-5' >{message}</h3>
             <div className='flex space-x-2'>
                 {

@@ -53,24 +53,23 @@ function App() {
       </Routes>
 
       {
-        openModal && modal.type && <Modal modal={modal} />
+        openModal && modal.message && <Modal modal={modal} />
       }
 
       <button className="mt-[10%] h-min max-w-min mx-auto" onClick={async () => {
         // const sure = window.confirm("");
         // console.log("clicked")
         setModal({
-          type: "confirm",
           message: "Are you sure to log out?",
           buttons: [
             {
-              type: "disabled", text: "Yes", onClick: () => {
+              type: "secondary", text: "Yes", onClick: () => {
                 setSure(true)
                 setOpenModal(false)
               }
             },
             {
-              type: "secondary", text: "No", onClick: () => {
+              type: "primary", text: "No", onClick: () => {
                 setSure(false)
                 setOpenModal(false)
               }
@@ -83,7 +82,6 @@ function App() {
           const success = await signOut();
           if (success) {
             setModal({
-              type: "alert",
               message: "you're signOut",
               buttons: [
                 { type: "primary", text: "ok", onClick: () => setOpenModal(false) }
