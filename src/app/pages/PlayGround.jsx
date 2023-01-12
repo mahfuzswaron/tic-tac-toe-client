@@ -129,8 +129,12 @@ const PlayGround = ({ sound, setSound, clickSound }) => {
 
             {/* HEADER */}
             <div className='mt-9 mb-2' >
-                <div className='flex justify-between items-center' >
-                    <Heading1>Game with {partner(Object.values(game.players), user.username)} </Heading1>
+                <Heading1>Game with {partner(Object.values(game.players), user.username)} </Heading1>
+                <div className='flex justify-between items-start my-2'>
+                    <div>
+                        <p className='text-[14px]'>Your Piece</p>
+                        <img src={piecePlaceholders[piece]} alt="piece icon" />
+                    </div>
                     <div className='flex space-x-3 items-center'>
                         <button onClick={handleUndo} disabled={!canUndo}>
                             {undoBtn}
@@ -140,10 +144,7 @@ const PlayGround = ({ sound, setSound, clickSound }) => {
                         </button>
                         <ThemeSwitcher />
                     </div>
-
                 </div>
-                <p className='text-[14px] my-2'>Your Piece</p>
-                <img src={piecePlaceholders[piece]} alt="piece icon" />
             </div>
 
             {/* Game Board  */}
