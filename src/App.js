@@ -43,10 +43,10 @@ function App() {
         <Route path="/login" element={<Login sound={sound} clickSound={clickSound} />} />
         <Route path="/register" element={<Register clickSound={clickSound} />} />
         <Route path="/new-game" element={<AuthWall>
-          <NewGame sound={sound} clickSound={clickSound} />
+          <NewGame sound={sound} clickSound={clickSound} setModal={setModal} setOpenModal={setOpenModal} />
         </AuthWall>} />
         <Route path="/play-ground/:id" element={<AuthWall>
-          <PlayGround sound={sound} clickSound={clickSound} setSound={setSound} />
+          <PlayGround sound={sound} clickSound={clickSound} setSound={setSound} setModal={setModal} setOpenModal={setOpenModal} />
         </AuthWall>} />
 
         <Route path="*" element={<NotFound sound={sound} clickSound={clickSound} />} />
@@ -57,8 +57,6 @@ function App() {
       }
 
       <button className="mt-[10%] h-min max-w-min mx-auto" onClick={async () => {
-        // const sure = window.confirm("");
-        // console.log("clicked")
         setModal({
           message: "Are you sure to log out?",
           buttons: [
@@ -74,8 +72,7 @@ function App() {
                 setOpenModal(false)
               }
             }
-          ],
-          stateFns: [setOpenModal, setSure]
+          ]
         })
         setOpenModal(true);
         if (sure) {
@@ -85,8 +82,7 @@ function App() {
               message: "you're signOut",
               buttons: [
                 { type: "primary", text: "ok", onClick: () => setOpenModal(false) }
-              ],
-              stateFns: [setOpenModal]
+              ]
             })
             setOpenModal(true);
           }

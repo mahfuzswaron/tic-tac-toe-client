@@ -28,7 +28,7 @@ const muteBtn = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" clas
 </svg>
 
 
-const PlayGround = ({ sound, setSound, clickSound }) => {
+const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => {
     const [user, userloading, firebaseLoading] = UseUserInfo();
     const [game, setGame] = useState({});
     const [canUndo, setCanUndo] = useState(false);
@@ -85,7 +85,14 @@ const PlayGround = ({ sound, setSound, clickSound }) => {
         sound && clickSound.play();
 
         if (!locked && !game.status.finished) {
-            return alert("make your move first")
+            setModal({
+                message: "Make your move first",
+                buttons: [
+                    { type: "primary", text: "ok", onClick: () => setOpenModal(false) }
+                ]
+            })
+            setOpenModal(true);
+            return
         }
         else if (!game.status.finished && game.move === user.username && locked) {
             fetch(`http://localhost:5000/play/${game._id}`, {
@@ -96,7 +103,6 @@ const PlayGround = ({ sound, setSound, clickSound }) => {
                 body: JSON.stringify(game.board)
             }).then(res => res.json()).then(data => {
                 if (data) {
-                    // setCanMove(false)
                     fetchGame(game._id)
                     socket.emit("set_data", { roomId: game._id, message: `${user.username} has moved` });
                 }

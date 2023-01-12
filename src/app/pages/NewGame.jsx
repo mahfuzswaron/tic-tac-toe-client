@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 import Loader from '../components/Loader/Loader';
 const socket = io.connect("http://localhost:5000");
 
-const NewGame = ({ sound, clickSound }) => {
+const NewGame = ({ sound, clickSound, setModal, setOpenModal }) => {
     const [user, loading, fireabaseLoading] = UseUserInfo();
     const [email, setEmail] = useState("");
     const [joinRoom, setJoinRoom] = useState(false);
@@ -32,7 +32,13 @@ const NewGame = ({ sound, clickSound }) => {
                 navigate(`/play-ground/${result.insertedId}`)
             }
             else {
-                alert("user not found. please enter a valid email");
+                setModal({
+                    message: "user not found. please enter a valid email",
+                    buttons: [
+                        { type: "primary", text: "ok", onClick: () => setOpenModal(false) }
+                    ]
+                })
+                setOpenModal(true);
             }
         })
     }
