@@ -11,12 +11,15 @@ import AuthWall from "./app/pages/AuthWall";
 import { useSignOut } from 'react-firebase-hooks/auth';
 import Loader from "./app/components/Loader/Loader";
 import { useEffect, useState } from "react";
-// import ThemeSwitcher from "./app/components/ThemeSwitcher";
+import Modal from "./app/components/Modal";
 const clickSound = new Audio("/buttonClick.wav");
 
 function App() {
   const [signOut, signOutLoading] = useSignOut(auth);
   const [sound, setSound] = useState(true);
+  const [openModal, setOpenModal] = useState(true)
+  const [modal, setModal] = useState({});
+  const [sure, setSure] = useState(false);
   useEffect(() => {
     setSound(localStorage.getItem("sound") === "true");
     const root = window.document.documentElement;
@@ -49,12 +52,45 @@ function App() {
         <Route path="*" element={<NotFound sound={sound} clickSound={clickSound} />} />
       </Routes>
 
+      {
+        openModal && modal.type && <Modal modal={modal} />
+      }
+
       <button className="mt-[10%] h-min max-w-min mx-auto" onClick={async () => {
-        const sure = window.confirm("Are you sure to log out?");
+        // const sure = window.confirm("");
+        console.log("clicked")
+        setModal({
+          type: "confirm",
+          message: "Are you sure to log out?",
+          buttons: [
+            {
+              type: "disabled", text: "Yes", onClick: () => {
+                setSure(true)
+                setOpenModal(false)
+              }
+            },
+            {
+              type: "secondary", text: "No", onClick: () => {
+                setSure(false)
+                setOpenModal(false)
+              }
+            }
+          ],
+          stateFns: [setOpenModal, setSure]
+        })
+        setOpenModal(true);
         if (sure) {
           const success = await signOut();
           if (success) {
-            alert('You are sign out');
+            setModal({
+              type: "alert",
+              message: "you're signOut",
+              buttons: [
+                { type: "primary", text: "ok", onClick: () => setOpenModal(false) }
+              ],
+              stateFns: [setOpenModal]
+            })
+            setOpenModal(true);
           }
         }
       }} >
