@@ -33,7 +33,7 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
     const [user, userloading, firebaseLoading] = UseUserInfo();
     const [game, setGame] = useState({});
     const [canUndo, setCanUndo] = useState(false);
-    const [congrats, setCongrats] = useState(false);
+    const [congrats, setCongrats] = useState(true);
     const [canMove, setCanMove] = useState(false);
     const [loading, setLoading] = useState(false);
     const [locked, setLocked] = useState(false);
@@ -176,7 +176,7 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
             </Button>
 
             {
-                congrats && <CongratulaitonsModal />
+                congrats && <CongratulaitonsModal sound={sound} />
             }
 
         </div>
