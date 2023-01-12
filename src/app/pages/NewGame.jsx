@@ -57,7 +57,7 @@ const NewGame = ({ sound, clickSound, setModal, setOpenModal }) => {
     }
 
     return (
-        <div className='flex flex-col h-screen' >
+        <div className='flex flex-col h-screen animate__animated animate__fadeInDownBig' >
             <div>
                 {/* BACK ARROW  */}
                 <Link onClick={() => sound && clickSound.play()} to="/"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-[24px] h-[24px] -ml-1">

@@ -12,6 +12,7 @@ import { useSignOut } from 'react-firebase-hooks/auth';
 import Loader from "./app/components/Loader/Loader";
 import { useEffect, useState } from "react";
 import Modal from "./app/components/Modal";
+import 'animate.css';
 const clickSound = new Audio("/buttonClick.wav");
 
 function App() {

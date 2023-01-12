@@ -39,7 +39,7 @@ const Board = ({ game, setGame, setCanUndo, piece, username, locked, setLocked, 
                         onClick={() => makeMove(k)}
                     >
                         {/* `${k !== "" && "h-16 w-16"} ` */}
-                        <img className={"h-16 w-16"} src={board[k] ? pieceIcon[board[k]] : pieceIconPlaceholder[piece]} alt=" " />
+                        <img className={"h-16 w-16 animate__animated animate__zoomIn"} src={board[k] ? pieceIcon[board[k]] : pieceIconPlaceholder[piece]} alt=" " />
                     </div>)
                 }
             </div>

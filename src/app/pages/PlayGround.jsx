@@ -33,7 +33,7 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
     const [user, userloading, firebaseLoading] = UseUserInfo();
     const [game, setGame] = useState({});
     const [canUndo, setCanUndo] = useState(false);
-    const [congrats, setCongrats] = useState(true);
+    const [congrats, setCongrats] = useState(false);
     const [canMove, setCanMove] = useState(false);
     const [loading, setLoading] = useState(false);
     const [locked, setLocked] = useState(false);
@@ -126,7 +126,7 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
         setSound(!sound)
     }
     return (
-        <div onClick={() => setCongrats(false)}>
+        <div onClick={() => setCongrats(false)} className="animate__animated animate__zoomIn">
             {/* BACK ARROW  */}
             <Link to="/" onClick={() => clickSound.play()} >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-[24px] h-[24px] -ml-1">
