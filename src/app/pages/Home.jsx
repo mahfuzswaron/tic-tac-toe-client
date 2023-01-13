@@ -34,23 +34,23 @@ const Home = ({ sound, clickSound }) => {
     }
     // console.log(games)
     return (
-        <div className='max-w-sm min-h-screen flex flex-col relative animate__animated animate__fadeInDownBig' >
+        <div className='max-w-sm min-h-screen flex flex-col' >
             <Heading1>Your Games</Heading1>
             {
                 games.length ?
-                    <>
-                        <div className="grid grid-cols-1 gap-4 mt-4">
+                    <div className='relative'>
+                        <div className="grid grid-cols-1 gap-4 mt-4 animate__animated animate__fadeInDownBig">
                             {
                                 games.map(g => <GameCard key={g._id} game={g} username={user.username} sound={sound} clickSound={clickSound} />)
                             }
                         </div>
-                        <div className='w-[124px] p-2 flex items-center space-x-2 bg-[#270F36] text-white rounded-lg fixed md:mr-[25%] lg:mr-[35%] bottom-6 Down-6 z-1'>
+                        <div className='w-[124px] p-2 flex items-center space-x-2 bg-[#270F36] text-white rounded-lg fixed md:ml-[25%] lg:ml-[35%] bottom-6 z-1'>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-[14px] h-[14px]">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                             </svg>
                             <Link to="/new-game" ><span className='text-[14px]' onClick={() => sound && clickSound.play()} >New Game</span></Link>
                         </div>
-                    </>
+                    </div>
                     :
                     <div className=' flex-grow flex flex-col justify-center items-center my-auto max-h-min w-full'>
                         <h1 className='text-6xl text-center font-bilbo mb-6' >No Games Found</h1>
