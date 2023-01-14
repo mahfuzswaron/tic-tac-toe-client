@@ -66,7 +66,7 @@ const Login = ({ sound, clickSound }) => {
     }
 
     return (
-        <div className='text-darkGray dark:text-gray flex flex-col min-h-screen animate__animated animate__fadeInUpBig' >
+        <div className='text-darkGray dark:text-gray flex flex-col h-[95vh] animate__animated animate__fadeInUpBig' >
 
             {/* BACK ARROW  */}
             <Link to={"/entry"}>

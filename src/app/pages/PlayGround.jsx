@@ -104,7 +104,7 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
             }).then(res => res.json()).then(data => {
                 if (data) {
                     fetchGame(game._id, true)
-                    socket.emit("set_data", { roomId: game._id, gameBoard: game.board, move: alternateMove(game.players, game.move) })
+                    socket.emit("set_data", { roomId: game._id, message: "move done" })
                 }
             })
         }
