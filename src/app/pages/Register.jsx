@@ -34,7 +34,7 @@ const Register = ({ clickSound }) => {
     const registerUser = async (e) => {
         e.preventDefault();
         clickSound.play();
-        fetch("https://tic-tac-toe-server-tqsm.onrender.com/register", {
+        fetch("http://localhost:5000/register", {
             method: "POST",
             headers: {
                 "content-type": "application/json"

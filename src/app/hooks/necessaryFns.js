@@ -1,5 +1,6 @@
 export const pronoun = (name, currentUser) => name === currentUser ? "Your" : name + "'s";
 export const partner = (users, currentUser) => users.find(u => u !== currentUser);
+export const alternateMove = (players, lastMove) => Object.values(players).find(p => p !== lastMove);
 export const getPiece = (pieces, currentUser) => {
     let piece;
     for (const p in pieces) {

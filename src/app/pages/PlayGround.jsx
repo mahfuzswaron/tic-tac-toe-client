@@ -6,12 +6,12 @@ import Board from '../components/Board';
 import Button from "../components/Button";
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import UseUserInfo from '../hooks/UseUserInfo';
-import { getPiece, partner } from '../hooks/necessaryFns';
+import { getPiece, partner, alternateMove } from '../hooks/necessaryFns';
 import io from "socket.io-client";
 import Loader from '../components/Loader/Loader';
 import ThemeSwitcher from '../components/ThemeSwitcher';
 import CongratulaitonsModal from '../components/CongratulaitonsModal';
-const socket = io.connect("https://tic-tac-toe-server-tqsm.onrender.com");
+const socket = io.connect("http://localhost:5000");
 
 
 
@@ -35,16 +35,13 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
     const [canUndo, setCanUndo] = useState(false);
     const [congrats, setCongrats] = useState(false);
     const [canMove, setCanMove] = useState(false);
-    const [loading, setLoading] = useState(false);
     const [locked, setLocked] = useState(false);
     const id = useParams().id;
     const navigate = useNavigate();
     const fetchGame = (gameId, bySubmit) => {
-        setLoading(true);
-        fetch(`https://tic-tac-toe-server-tqsm.onrender.com/get-game/${gameId}`).then(res => res.json()).then(game => {
+        fetch(`http://localhost:5000/get-game/${gameId}`).then(res => res.json()).then(game => {
             if (game) {
                 setGame(game)
-                setLoading(false)
                 if (bySubmit && game?.status?.finished && game.winner === user.username) return setCongrats(true)
             }
         });
@@ -59,12 +56,13 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
     // listen to opponent's move 
     useEffect(() => {
         socket.on("get_data", (data) => {
-            fetchGame(data.roomId)
+            fetchGame(id)
         })
     }, [socket])
 
     // update moving access and board lock
     useEffect(() => {
+        console.log(game.move);
         if (game.move === user?.username) {
             setCanMove(true)
             setLocked(false)
@@ -75,7 +73,8 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
         }
     }, [game.move, user.username]);
 
-    if (loading || userloading || firebaseLoading || !user?._id || !game._id) {
+    if (userloading || firebaseLoading || !user?._id || !game._id) {
+        console.log(game._id)
         return <Loader />
     }
 
@@ -96,7 +95,7 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
             return
         }
         else if (!game.status.finished && game.move === user.username && locked) {
-            fetch(`https://tic-tac-toe-server-tqsm.onrender.com/play/${game._id}`, {
+            fetch(`http://localhost:5000/play/${game._id}`, {
                 method: "PATCH",
                 headers: {
                     "content-type": "application/json"
@@ -105,7 +104,7 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
             }).then(res => res.json()).then(data => {
                 if (data) {
                     fetchGame(game._id, true)
-                    socket.emit("set_data", { roomId: game._id, message: `${user.username} has moved` })
+                    socket.emit("set_data", { roomId: game._id, gameBoard: game.board, move: alternateMove(game.players, game.move) })
                 }
             })
         }
