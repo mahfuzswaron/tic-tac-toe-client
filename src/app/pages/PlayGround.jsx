@@ -11,7 +11,7 @@ import io from "socket.io-client";
 import Loader from '../components/Loader/Loader';
 import ThemeSwitcher from '../components/ThemeSwitcher';
 import CongratulaitonsModal from '../components/CongratulaitonsModal';
-const socket = io.connect("http://localhost:5000");
+const socket = io.connect("https://tic-tac-toe-server-tqsm.onrender.com");
 
 
 
@@ -39,7 +39,7 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
     const id = useParams().id;
     const navigate = useNavigate();
     const fetchGame = (gameId, bySubmit) => {
-        fetch(`http://localhost:5000/get-game/${gameId}`).then(res => res.json()).then(game => {
+        fetch(`https://tic-tac-toe-server-tqsm.onrender.com/get-game/${gameId}`).then(res => res.json()).then(game => {
             if (game) {
                 setGame(game)
                 if (bySubmit && game?.status?.finished && game.winner === user.username) return setCongrats(true)
@@ -95,7 +95,7 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
             return
         }
         else if (!game.status.finished && game.move === user.username && locked) {
-            fetch(`http://localhost:5000/play/${game._id}`, {
+            fetch(`https://tic-tac-toe-server-tqsm.onrender.com/play/${game._id}`, {
                 method: "PATCH",
                 headers: {
                     "content-type": "application/json"

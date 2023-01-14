@@ -6,13 +6,13 @@ import Heading1 from "../components/Heading1";
 import UseUserInfo from '../hooks/UseUserInfo';
 import io from "socket.io-client";
 import Loader from '../components/Loader/Loader';
-const socket = io.connect("http://localhost:5000");
+const socket = io.connect("https://tic-tac-toe-server-tqsm.onrender.com");
 
 const Home = ({ sound, clickSound }) => {
     const [games, setGames] = useState([]);
     const [gamesLoading, setGamesLoading] = useState(false);
     const [user, loading, fireabaseLoading] = UseUserInfo();
-    const fetchGames = username => fetch(`http://localhost:5000/all-games/${username}`).then(res => res.json()).then(data => {
+    const fetchGames = username => fetch(`https://tic-tac-toe-server-tqsm.onrender.com/all-games/${username}`).then(res => res.json()).then(data => {
         setGames(data)
         return setGamesLoading(false)
     });
