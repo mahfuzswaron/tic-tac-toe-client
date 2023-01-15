@@ -33,7 +33,8 @@ const Login = ({ sound, clickSound }) => {
     }, [error, user])
 
     const updateFormValue = (e, inputName) => {
-        const value = e.target.value;
+        let value = e.target.value;
+        if (inputName !== "password") value = value.toLowerCase();
         const newForm = { ...formValue };
         newForm[inputName] = value;
         setFormValue({ ...newForm });
@@ -41,7 +42,7 @@ const Login = ({ sound, clickSound }) => {
 
     const loginUser = (e) => {
         e.preventDefault();
-
+        console.log(formValue["username"])
         fetch(`https://tic-tac-toe-server-tqsm.onrender.com/userinfo?username=${formValue["username"]}`).then(res => res.json()).then(data => {
             if (data.success) {
                 signInWithEmailAndPassword(data.user.email, formValue.password);
@@ -66,7 +67,7 @@ const Login = ({ sound, clickSound }) => {
     }
 
     return (
-        <div className='text-darkGray dark:text-gray flex flex-col h-[93vh] animate__animated animate__fadeInUpBig' >
+        <div className='text-darkGray dark:text-gray flex flex-col h-[90vh] animate__animated animate__fadeInUpBig' >
 
             {/* BACK ARROW  */}
             <Link to={"/entry"}>

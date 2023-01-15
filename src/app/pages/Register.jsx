@@ -26,7 +26,8 @@ const Register = ({ clickSound }) => {
     ] = useCreateUserWithEmailAndPassword(auth);
     const navigate = useNavigate();
     const updateFormValue = (e, inputName) => {
-        const value = e.target.value;
+        let value = e.target.value;
+        if (inputName !== "name" || inputName !== "password") value = value.toLowerCase();
         const newForm = { ...formValue };
         newForm[inputName] = value;
         setFormValue({ ...newForm });
@@ -74,7 +75,7 @@ const Register = ({ clickSound }) => {
 
 
     return (
-        <div className='text-darkGray dark:text-gray flex flex-col h-[93vh] w-full animate__animated animate__fadeInUpBig' >
+        <div className='text-darkGray dark:text-gray flex flex-col h-[90vh] w-full animate__animated animate__fadeInUpBig' >
             {/* BACK ARROW  */}
             <Link to={"/entry"}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-[24px] h-[24px] -ml-1">
