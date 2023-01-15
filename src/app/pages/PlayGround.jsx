@@ -6,7 +6,7 @@ import Board from '../components/Board';
 import Button from "../components/Button";
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import UseUserInfo from '../hooks/UseUserInfo';
-import { getPiece, partner, alternateMove } from '../hooks/necessaryFns';
+import { getPiece, partner } from '../hooks/necessaryFns';
 import io from "socket.io-client";
 import Loader from '../components/Loader/Loader';
 import ThemeSwitcher from '../components/ThemeSwitcher';
@@ -33,7 +33,7 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
     const [user, userloading, firebaseLoading] = UseUserInfo();
     const [game, setGame] = useState({});
     const [canUndo, setCanUndo] = useState(false);
-    const [congrats, setCongrats] = useState(false);
+    const [congrats, setCongrats] = useState(true);
     const [canMove, setCanMove] = useState(false);
     const [locked, setLocked] = useState(false);
     const id = useParams().id;
@@ -125,7 +125,7 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
         setSound(!sound)
     }
     return (
-        <div onClick={() => setCongrats(false)} className="animate__animated animate__zoomIn">
+        <div onClick={() => setCongrats(false)} className={`animate__animated animate__zoomIn `}>
             {/* BACK ARROW  */}
             <Link to="/" onClick={() => sound && clickSound.play()} >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-[24px] h-[24px] -ml-1">

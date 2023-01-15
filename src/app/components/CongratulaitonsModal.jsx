@@ -7,8 +7,8 @@ const CongratulaitonsModal = ({ sound }) => {
         sound && new Audio("/Tada-sound.mp3").play();
     }, [])
     return (
-        <div className='bg-opacity-0 z-1 fixed top-[15%] left-0 flex justify-center w-full animate__animated animate__zoomIn'>
-            <img className='w-[30rem]' src={youWon} alt="" />
+        <div className='h-screen z-1 fixed top-[20%] left-0 flex justify-center w-full animate__animated animate__zoomInUp animate__slow'>
+            <img className='w-[35rem] h-min' src={youWon} alt="" />
         </div>
     );
 };
