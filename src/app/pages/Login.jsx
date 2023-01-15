@@ -10,7 +10,7 @@ import Loader from '../components/Loader/Loader';
 
 const inputClasses = "mt-3 p-3 w-full rounded-lg bg-gray dark:border border-gray dark:bg-semiBlack";
 
-const Login = ({ sound, clickSound }) => {
+const Login = ({ sound, clickSound, setLoggedIn }) => {
     const [formValue, setFormValue] = useState({
         username: "",
         password: "",
@@ -42,7 +42,6 @@ const Login = ({ sound, clickSound }) => {
 
     const loginUser = (e) => {
         e.preventDefault();
-        console.log(formValue["username"])
         fetch(`https://tic-tac-toe-server-tqsm.onrender.com/userinfo?username=${formValue["username"]}`).then(res => res.json()).then(data => {
             if (data.success) {
                 signInWithEmailAndPassword(data.user.email, formValue.password);
@@ -63,6 +62,7 @@ const Login = ({ sound, clickSound }) => {
     }
 
     if (user) {
+        setLoggedIn(true);
         navigate("/")
     }
 

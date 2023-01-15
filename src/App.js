@@ -16,17 +16,18 @@ import 'animate.css';
 const clickSound = new Audio("/buttonClick.wav");
 
 function App() {
+  const [loggedIn, setLoggedIn] = useState(auth.currentUser !== null)
   const [signOut, signOutLoading] = useSignOut(auth);
   const [sound, setSound] = useState(true);
   const [openModal, setOpenModal] = useState(true)
   const [modal, setModal] = useState({});
-  const [sure, setSure] = useState(false);
   useEffect(() => {
     setSound(localStorage.getItem("sound") === "true");
     const root = window.document.documentElement;
     root.classList.remove("dark", "light");
     root.classList.add(localStorage.theme);
   }, [])
+
   if (signOutLoading) return <Loader message={"Logging out..."} />
 
   return (
@@ -40,8 +41,8 @@ function App() {
         </AuthWall>} />
         <Route path="/entry" element={<Entry sound={sound} clickSound={clickSound} />} />
 
-        <Route path="/login" element={<Login sound={sound} clickSound={clickSound} />} />
-        <Route path="/register" element={<Register clickSound={clickSound} />} />
+        <Route path="/login" element={<Login sound={sound} clickSound={clickSound} setLoggedIn={setLoggedIn} />} />
+        <Route path="/register" element={<Register clickSound={clickSound} setLoggedIn={setLoggedIn} />} />
         <Route path="/new-game" element={<AuthWall>
           <NewGame sound={sound} clickSound={clickSound} setModal={setModal} setOpenModal={setOpenModal} />
         </AuthWall>} />
@@ -56,12 +57,13 @@ function App() {
         openModal && modal.message && <Modal modal={modal} />
       }
 
-      <button className={`mt-[10%] h-min max-w-min mx-auto ${auth.currentUser ? "opacity-100" : "opacity-0"} `} disabled={!auth.currentUser} onClick={() => {
+      <button className={`mt-[10%] h-min max-w-min mx-auto ${loggedIn ? "opacity-100" : "opacity-0"} `} disabled={!loggedIn} onClick={() => {
         setModal({
           message: "Are you sure to log out?",
           buttons: [
             {
               type: "secondary", text: "Yes", onClick: () => {
+                setLoggedIn(false)
                 signOut()
                 setOpenModal(false)
               }

@@ -10,7 +10,7 @@ import Loader from '../components/Loader/Loader';
 
 const inputClasses = "mt-3 p-3 w-full rounded-lg bg-gray dark:border border-gray dark:bg-semiBlack";
 
-const Register = ({ clickSound }) => {
+const Register = ({ clickSound, setLoggedIn }) => {
     const [formValue, setFormValue] = useState({
         name: "",
         username: "",
@@ -69,6 +69,7 @@ const Register = ({ clickSound }) => {
         return <Loader message={"Joining..."} />
     }
     if (user) {
+        setLoggedIn(true)
         localStorage.setItem("sound", true)
         navigate("/")
     }

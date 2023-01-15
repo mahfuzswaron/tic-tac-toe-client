@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import Button from "../components/Button";
 const Entry = ({ sound, clickSound }) => {
     return (
-        <div className='animate__animated animate__zoomIn' >
+        <div>
             <div className='font-bilbo text-center w-[156px] mx-auto mt-[148px] mb-[35px] ' >
                 <h4 className='text-4xl leading-[45px] ' >async</h4>
                 <h1 className='text-8xl' >tic tac toe</h1>
