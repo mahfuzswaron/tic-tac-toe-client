@@ -27,7 +27,6 @@ function App() {
     root.classList.remove("dark", "light");
     root.classList.add(localStorage.theme);
   }, [])
-
   if (signOutLoading) return <Loader message={"Logging out..."} />
 
   return (
@@ -57,37 +56,20 @@ function App() {
         openModal && modal.message && <Modal modal={modal} />
       }
 
-      <button className="mt-[10%] h-min max-w-min mx-auto" onClick={async () => {
+      <button className={`mt-[10%] h-min max-w-min mx-auto ${auth.currentUser ? "opacity-100" : "opacity-0"} `} disabled={!auth.currentUser} onClick={() => {
         setModal({
           message: "Are you sure to log out?",
           buttons: [
             {
               type: "secondary", text: "Yes", onClick: () => {
-                setSure(true)
+                signOut()
                 setOpenModal(false)
               }
             },
-            {
-              type: "primary", text: "No", onClick: () => {
-                setSure(false)
-                setOpenModal(false)
-              }
-            }
+            { type: "primary", text: "No", onClick: () => setOpenModal(false) }
           ]
         })
         setOpenModal(true);
-        if (sure) {
-          const success = await signOut();
-          if (success) {
-            setModal({
-              message: "you're signOut",
-              buttons: [
-                { type: "primary", text: "ok", onClick: () => setOpenModal(false) }
-              ]
-            })
-            setOpenModal(true);
-          }
-        }
       }} >
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} className="w-6 h-6 mx-auto stroke-darkGray">
           <path strokeLinecap="round" strokeLinejoin="round" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9" />
