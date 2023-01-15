@@ -19,7 +19,7 @@ const Home = ({ sound, clickSound }) => {
 
     useEffect(() => {
         socket.emit("join_room", user?.email);
-        setGamesLoading(true)
+        if (!games.length) setGamesLoading(true)
         fetchGames(user?.username)
     }, [user]);
 

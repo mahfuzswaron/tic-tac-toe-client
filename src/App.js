@@ -46,7 +46,7 @@ function App() {
         <Route path="/new-game" element={<AuthWall>
           <NewGame sound={sound} clickSound={clickSound} setModal={setModal} setOpenModal={setOpenModal} />
         </AuthWall>} />
-        <Route path="/play-ground/:id" element={<AuthWall>
+        <Route path="/play-ground/:gameParam" element={<AuthWall>
           <PlayGround sound={sound} clickSound={clickSound} setSound={setSound} setModal={setModal} setOpenModal={setOpenModal} />
         </AuthWall>} />
 

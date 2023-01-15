@@ -30,40 +30,39 @@ const muteBtn = <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" clas
 
 
 const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => {
-    const [user, userloading, firebaseLoading] = UseUserInfo();
+    // const [user, userloading, firebaseLoading] = UseUserInfo();
     const [game, setGame] = useState({});
     const [canUndo, setCanUndo] = useState(false);
-    const [congrats, setCongrats] = useState(true);
+    const [congrats, setCongrats] = useState(false);
     const [canMove, setCanMove] = useState(false);
     const [locked, setLocked] = useState(false);
-    const id = useParams().id;
+    const [gameId, username] = useParams().gameParam.split("__");
     const navigate = useNavigate();
-    const fetchGame = (gameId, bySubmit) => {
+    const fetchGame = (gameId, sayCongrats) => {
         fetch(`https://tic-tac-toe-server-tqsm.onrender.com/get-game/${gameId}`).then(res => res.json()).then(game => {
             if (game) {
                 setGame(game)
-                if (bySubmit && game?.status?.finished && game.winner === user.username) return setCongrats(true)
+                if (sayCongrats && game?.status?.finished && game.winner === username) return setCongrats(true)
             }
         });
     }
     // initialize game and join room by game id
     useEffect(() => {
-        socket.emit("join_room", id);
-        fetchGame(id)
+        socket.emit("join_room", gameId);
+        fetchGame(gameId)
         setSound(localStorage.getItem("sound") === "true");
-    }, [id, user])
+    }, [gameId, username])
 
     // listen to opponent's move 
     useEffect(() => {
         socket.on("get_data", (data) => {
-            fetchGame(id)
+            fetchGame(data.roomId)
         })
     }, [socket])
 
     // update moving access and board lock
     useEffect(() => {
-        console.log(game.move);
-        if (game.move === user?.username) {
+        if (game.move === username) {
             setCanMove(true)
             setLocked(false)
         }
@@ -71,14 +70,11 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
             setCanMove(false)
             setLocked(true)
         }
-    }, [game.move, user.username]);
+    }, [game.move, username]);
 
-    if (userloading || firebaseLoading || !user?._id || !game._id) {
-        console.log(game._id)
-        return <Loader />
-    }
+    if (!game._id) return <Loader />
 
-    const piece = getPiece(game.pieces, user.username);
+    const piece = getPiece(game.pieces, username);
     const piecePlaceholders = { x: x, o: o };
     const handleSubmit = () => {
 
@@ -94,7 +90,7 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
             setOpenModal(true);
             return
         }
-        else if (!game.status.finished && game.move === user.username && locked) {
+        else if (!game.status.finished && game.move === username && locked) {
             fetch(`https://tic-tac-toe-server-tqsm.onrender.com/play/${game._id}`, {
                 method: "PATCH",
                 headers: {
@@ -103,6 +99,7 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
                 body: JSON.stringify(game.board)
             }).then(res => res.json()).then(data => {
                 if (data) {
+                    setCanUndo(false)
                     fetchGame(game._id, true)
                     socket.emit("set_data", { roomId: game._id, message: "move done" })
                 }
@@ -115,7 +112,7 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
     }
     const handleUndo = () => {
         setCanUndo(false);
-        fetchGame(id);
+        fetchGame(gameId);
         setLocked(false);
         setCanMove(true);
     }
@@ -135,10 +132,10 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
 
             {/* HEADER */}
             <div className='mt-9 mb-2' >
-                <Heading1>Game with {partner(Object.values(game.players), user.username)} </Heading1>
+                <Heading1>Game with {partner(Object.values(game.players), username)} </Heading1>
                 <div className='flex justify-between items-start my-2'>
                     <div>
-                        <p className='text-[14px]'>Your Piece</p>
+                        <p className='text-[14px] mb-2'>Your Piece</p>
                         <img src={piecePlaceholders[piece]} alt="piece icon" />
                     </div>
                     <div className='flex space-x-3 items-center'>
@@ -157,7 +154,7 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
 
 
             <Board
-                username={user.username}
+                username={username}
                 game={game}
                 setGame={setGame}
                 canMove={canMove}
@@ -171,7 +168,7 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
 
             <Button onClick={handleSubmit}
                 btnType={`${game.status.finished ? "primary" : canMove ? "primary" : "disabled"}`} >
-                {game.status.finished ? "start a new game!" : canMove ? "submit!" : `waiting for ${partner(Object.values(game.players), user.username)}`}
+                {game.status.finished ? "start a new game!" : canMove ? "submit!" : `waiting for ${partner(Object.values(game.players), username)}`}
             </Button>
 
             {
