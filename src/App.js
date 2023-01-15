@@ -30,7 +30,7 @@ function App() {
   if (signOutLoading) return <Loader message={"Logging out..."} />
 
   return (
-    <div className="max-w-sm min-h-screen grid grid-cols-1 mx-auto p-4 rounded-lg bg-white dark:bg-semiBlack dark:text-gray">
+    <div className=" w-screen md:max-w-sm min-h-screen grid grid-cols-1 mx-auto p-4 rounded-lg bg-white dark:bg-semiBlack dark:text-gray">
       <Routes>
         <Route path="/" element={<AuthWall>
           <Home sound={sound} clickSound={clickSound} />

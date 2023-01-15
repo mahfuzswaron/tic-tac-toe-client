@@ -17,7 +17,13 @@ module.exports = {
       gray: "#F4F4F4",
       disabled: '#E0E0E0',
     },
-    extend: {},
+    extend: {
+      screens: {
+        s_mobile: "320px",
+        m_mobile: "375px",
+        l_mobile: "425px"
+      }
+    },
   },
   plugins: [],
 }

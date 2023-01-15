@@ -34,17 +34,17 @@ const Home = ({ sound, clickSound }) => {
     }
     // console.log(games)
     return (
-        <div className='max-w-sm min-h-screen flex flex-col' >
+        <div className='w-full min-h-screen flex flex-col' >
             <Heading1>Your Games</Heading1>
             {
                 games.length ?
-                    <div className='relative'>
+                    <div className='relative w-full'>
                         <div className="grid grid-cols-1 gap-4 mt-4 animate__animated animate__fadeInDownBig">
                             {
                                 games.map(g => <GameCard key={g._id} game={g} username={user.username} sound={sound} clickSound={clickSound} />)
                             }
                         </div>
-                        <div className='w-[124px] p-2 flex items-center space-x-2 bg-[#270F36] text-white rounded-lg fixed ml-[9.4rem] md:ml-[13.4rem] bottom-6 z-1'>
+                        <div className='w-[124px] p-2 flex items-center space-x-2 bg-[#270F36] text-white rounded-lg fixed s_mobile:ml-[45vw] m_mobile:ml-[55vw] l_mobile:ml-[60vw] md:ml-[13.4rem] 2xl:ml-[15.9rem] bottom-6 z-1'>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="white" className="w-[14px] h-[14px]">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                             </svg>
