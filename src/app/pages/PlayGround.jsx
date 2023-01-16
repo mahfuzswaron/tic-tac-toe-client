@@ -36,7 +36,7 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
     const [congrats, setCongrats] = useState(false);
     const [canMove, setCanMove] = useState(false);
     const [locked, setLocked] = useState(false);
-    const [gameId, username] = useParams().gameParam.split("__");
+    const [username, gameId] = useParams().gameParam.split("$");
     const navigate = useNavigate();
     const fetchGame = (gameId, sayCongrats) => {
         fetch(`https://tic-tac-toe-server-tqsm.onrender.com/get-game/${gameId}`).then(res => res.json()).then(game => {

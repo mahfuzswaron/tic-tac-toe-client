@@ -20,10 +20,15 @@ const Home = ({ sound, clickSound }) => {
     });
 
     useEffect(() => {
+        let isMounted = true;
+
         if (user?.username && games.length === 0) {
             socket.emit("join_room", user?.username);
             fetchGames(user?.username);
         }
+
+        return () => isMounted = false;
+
     }, [user]);
 
     useEffect(() => {

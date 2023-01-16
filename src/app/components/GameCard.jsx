@@ -22,7 +22,7 @@ const GameCard = ({ game, username, sound, clickSound }) => {
             <h1 className='text-2xl font-bold' >Game with {partner} </h1>
             <p className='whitespace-pre-line ' >{status.message[username]}</p>
             <p className='text-sm'>{dateString} </p >
-            <Link onClick={() => sound && clickSound.play()} to={`/play-ground/${_id}__${username}`}><Button btnType={"primary"}>{status.finished ? "View Game" : "Play!"}</Button></Link>
+            <Link onClick={() => sound && clickSound.play()} to={`/play-ground/${username}$${_id}`}><Button btnType={"primary"}>{status.finished ? "View Game" : "Play!"}</Button></Link>
         </div>
     );
 };

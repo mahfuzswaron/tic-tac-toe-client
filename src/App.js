@@ -16,7 +16,7 @@ import 'animate.css';
 const clickSound = new Audio("/buttonClick.wav");
 
 function App() {
-  const [loggedIn, setLoggedIn] = useState(auth.currentUser !== null)
+  const [loggedIn, setLoggedIn] = useState(auth?.currentUser?.uid)
   const [signOut, signOutLoading] = useSignOut(auth);
   const [sound, setSound] = useState(true);
   const [openModal, setOpenModal] = useState(true)
@@ -27,7 +27,7 @@ function App() {
     root.classList.remove("dark", "light");
     root.classList.add(localStorage.theme);
   }, [])
-
+  console.log(auth.currentUser, loggedIn)
   if (signOutLoading) return <Loader message={"Logging out..."} />
 
   return (
