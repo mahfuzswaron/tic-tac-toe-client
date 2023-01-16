@@ -12,21 +12,24 @@ const Home = ({ sound, clickSound }) => {
     const [games, setGames] = useState([]);
     const [gamesLoading, setGamesLoading] = useState(false);
     const [user, loading, fireabaseLoading] = UseUserInfo();
+
     const fetchGames = username => fetch(`https://tic-tac-toe-server-tqsm.onrender.com/all-games/${username}`).then(res => res.json()).then(data => {
+        console.log("fetched")
         setGames(data)
         return setGamesLoading(false)
     });
 
     useEffect(() => {
-        socket.emit("join_room", user?.email);
-        if (!games.length) setGamesLoading(true)
-        fetchGames(user?.username)
+        if (user?.username && games.length === 0) {
+            socket.emit("join_room", user?.username);
+            fetchGames(user?.username);
+        }
     }, [user]);
 
     useEffect(() => {
         socket.on("get_data", () => {
             fetchGames(user?.username)
-        })
+        });
     }, [socket, user]);
 
     if (loading || fireabaseLoading || !user?._id || gamesLoading) {
