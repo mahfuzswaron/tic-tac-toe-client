@@ -14,7 +14,6 @@ const Home = ({ sound, clickSound }) => {
     const [user, loading, fireabaseLoading] = UseUserInfo();
 
     const fetchGames = username => fetch(`https://tic-tac-toe-server-tqsm.onrender.com/all-games/${username}`).then(res => res.json()).then(data => {
-        console.log("fetched")
         setGames(data)
         return setGamesLoading(false)
     });
@@ -40,7 +39,6 @@ const Home = ({ sound, clickSound }) => {
     if (loading || fireabaseLoading || !user?._id || gamesLoading) {
         return <Loader message={"Games Loading..."} />
     }
-    // console.log(games)
     return (
         <div className='w-full min-h-screen flex flex-col' >
             <Heading1>Your Games</Heading1>
