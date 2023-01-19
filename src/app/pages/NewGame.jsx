@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import Button from '../components/Button';
 import Heading1 from '../components/Heading1';
 import Heading2 from '../components/Heading2';
@@ -10,7 +10,8 @@ import Loader from '../components/Loader/Loader';
 const socket = io.connect("https://tic-tac-toe-server-tqsm.onrender.com");
 
 const NewGame = ({ sound, clickSound, setModal, setOpenModal }) => {
-    const [user, loading, fireabaseLoading] = UseUserInfo();
+    // const [user, loading, fireabaseLoading] = UseUserInfo();
+    const [username, userEmail] = useParams().user.split("+");
     const [email, setEmail] = useState("");
     const [joinRoom, setJoinRoom] = useState(false);
     const navigate = useNavigate();
@@ -35,11 +36,11 @@ const NewGame = ({ sound, clickSound, setModal, setOpenModal }) => {
             headers: {
                 "content-type": "application/json"
             },
-            body: JSON.stringify({ user: user.email, partner: email })
+            body: JSON.stringify({ user: userEmail, partner: email })
         }).then(response => response.json()).then(result => {
             if (result.success) {
                 socket.emit("set_data", { roomId: email, message: "game created" })
-                navigate(`/play-ground/${result.insertedId}`)
+                navigate(`/play-ground/${username}+${userEmail}+${result.insertedId}`)
             }
             else {
                 setModal({
@@ -51,9 +52,6 @@ const NewGame = ({ sound, clickSound, setModal, setOpenModal }) => {
                 setOpenModal(true);
             }
         })
-    }
-    if (loading || fireabaseLoading || !user?._id) {
-        return <Loader message={"Please wait..."} />
     }
 
     return (

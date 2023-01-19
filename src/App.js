@@ -44,7 +44,7 @@ function App() {
 
           <Route path="/login" element={<Login sound={sound} clickSound={clickSound} setLoggedIn={setLoggedIn} />} />
           <Route path="/register" element={<Register clickSound={clickSound} setLoggedIn={setLoggedIn} />} />
-          <Route path="/new-game" element={<AuthWall>
+          <Route path="/new-game/:user" element={<AuthWall>
             <NewGame sound={sound} clickSound={clickSound} setModal={setModal} setOpenModal={setOpenModal} />
           </AuthWall>} />
           <Route path="/play-ground/:gameParam" element={<AuthWall>
