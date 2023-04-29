@@ -7,7 +7,7 @@ import UseUserInfo from '../hooks/UseUserInfo';
 import io from "socket.io-client";
 import { useEffect } from 'react';
 import Loader from '../components/Loader/Loader';
-const socket = io.connect("https://tic-tac-toe-server-tqsm.onrender.com");
+const socket = io.connect("https://tic-tac-toe-server-production-5405.up.railway.app");
 
 const NewGame = ({ sound, clickSound, setModal, setOpenModal }) => {
     // const [user, loading, fireabaseLoading] = UseUserInfo();
@@ -31,7 +31,7 @@ const NewGame = ({ sound, clickSound, setModal, setOpenModal }) => {
             setOpenModal(true);
             return
         }
-        fetch("https://tic-tac-toe-server-tqsm.onrender.com/start-game", {
+        fetch("https://tic-tac-toe-server-production-5405.up.railway.app/start-game", {
             method: "POST",
             headers: {
                 "content-type": "application/json"

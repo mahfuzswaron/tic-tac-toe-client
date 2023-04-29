@@ -7,7 +7,7 @@ const UseUserInfo = () => {
     const [user, setUser] = useState({});
     const [loading, setLoading] = useState(false)
     useEffect(() => {
-        const url = `https://tic-tac-toe-server-tqsm.onrender.com/userinfo?email=${firebaseUser?.email}`;
+        const url = `https://tic-tac-toe-server-production-5405.up.railway.app/userinfo?email=${firebaseUser?.email}`;
         setLoading(true)
         fetch(url).then(res => res.json()).then(data => {
             setUser(data.user)

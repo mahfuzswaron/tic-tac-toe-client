@@ -42,7 +42,7 @@ const Login = ({ sound, clickSound, setLoggedIn }) => {
 
     const loginUser = (e) => {
         e.preventDefault();
-        fetch(`https://tic-tac-toe-server-tqsm.onrender.com/userinfo?username=${formValue["username"]}`).then(res => res.json()).then(data => {
+        fetch(`https://tic-tac-toe-server-production-5405.up.railway.app/userinfo?username=${formValue["username"]}`).then(res => res.json()).then(data => {
             if (data.success) {
                 signInWithEmailAndPassword(data.user.email, formValue.password);
                 if (user) {

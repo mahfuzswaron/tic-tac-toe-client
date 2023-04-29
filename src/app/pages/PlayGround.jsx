@@ -11,7 +11,7 @@ import io from "socket.io-client";
 import Loader from '../components/Loader/Loader';
 import ThemeSwitcher from '../components/ThemeSwitcher';
 import CongratulaitonsModal from '../components/CongratulaitonsModal';
-const socket = io.connect("https://tic-tac-toe-server-tqsm.onrender.com");
+const socket = io.connect("https://tic-tac-toe-server-production-5405.up.railway.app");
 
 
 
@@ -39,7 +39,7 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
     const [username, email, gameId] = useParams().gameParam.split("+");
     const navigate = useNavigate();
     const fetchGame = (gameId, sayCongrats) => {
-        fetch(`https://tic-tac-toe-server-tqsm.onrender.com/get-game/${gameId}`).then(res => res.json()).then(game => {
+        fetch(`https://tic-tac-toe-server-production-5405.up.railway.app/get-game/${gameId}`).then(res => res.json()).then(game => {
             if (game) {
                 setGame(game)
                 if (sayCongrats && game?.status?.finished && game.winner === username) return setCongrats(true)
@@ -91,7 +91,7 @@ const PlayGround = ({ sound, setSound, clickSound, setModal, setOpenModal }) => 
             return
         }
         else if (!game.status.finished && game.move === username && locked) {
-            fetch(`https://tic-tac-toe-server-tqsm.onrender.com/play/${game._id}`, {
+            fetch(`https://tic-tac-toe-server-production-5405.up.railway.app/play/${game._id}`, {
                 method: "PATCH",
                 headers: {
                     "content-type": "application/json"
